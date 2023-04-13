@@ -1,0 +1,52 @@
+/* -----NAVBAR PAGE----- */
+#nav-title{
+    /* text color of title name */
+    color: #07BEB8;
+}
+
+#nav-home,#nav-report,#nav-nod,#nav-login{
+
+    /* text color of navbar links */
+    color: #057672;
+}
+
+/* -----LOGIN PAGE----- */
+#form-login{
+    
+    /* username and login box size */
+    max-width: 380px;
+    
+    /* center username and login */
+    display: block;
+    margin: auto;
+}
+
+#login-logo{
+    /* center image */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: auto;
+}
+
+
+/* -----REGISTER PAGE---- */
+
+/* image alignment */
+#box-register1{
+    float: left;
+    margin-top: 90px;
+    margin-left: 300px;
+}
+
+/* register input alignment boxes */
+#box-register2{
+    float: right;
+    margin-right: 200px;
+    margin-top: 150px;
+    height: 600px;
+    width: 500px; 
+}
+
+
