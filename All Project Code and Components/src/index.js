@@ -67,6 +67,25 @@ const auth = (req, res, next) => {
   app.get('/register', (req, res) => {
       res.render('pages/register');
     });
+    
+    app.post('/register', async (req, res) => {
+        const { username, password } = req.body;
+      
+        try {
+          // Hash the password using bcrypt
+          const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      
+          // Insert username and hashed password into 'users' table
+          const result = await db.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword]);
+      
+          // Redirect to /login page after successful insert
+          res.redirect('/login');
+        } catch (error) {
+          // Render the register page with an error message if the insert fails
+          res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
+        }
+      });
+      
   app.post('/login', async (req, res) => {
         const { username, password } = req.body;
       
