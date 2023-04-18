@@ -48,6 +48,12 @@ app.use(
     extended: true,
   })
 );
+// Creating the user variable
+
+const user = {
+    username: undefined,
+    password: undefined,
+  };
 //API Integration
 const auth = (req, res, next) => {
   if (!req.session.user) {
@@ -129,10 +135,6 @@ app.post('/login', async (req, res) => {
 
 // Creating the user variable
 
-const user = {
-  username: undefined,
-  password: undefined,
-};
 
 // Starting the server
 
