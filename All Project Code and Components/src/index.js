@@ -56,13 +56,17 @@ const auth = (req, res, next) => {
   }
   next();
 };
+
+app.get('/', (req, res) => {
+  res.redirect('/home');
+});
+
+app.get('/home', (req, res) => {
+  res.render('pages/home');
+});
   
 app.get('/login', (req, res) => {
   res.render('pages/login');
-});
-
-app.get('/', (req, res) => {
-  res.redirect('/login');
 });
   
 app.get('/register', (req, res) => {
@@ -70,11 +74,11 @@ app.get('/register', (req, res) => {
 });
     
 app.post('/register', async (req, res) => {
-  const { username, password } = req.body;
-
+  const username = req.body.input_username;
+  const password = req.body.input_password;
   try {
     // Hash the password using bcrypt
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const hashedPassword = await bcrypt.hash(req.body.input_password, 10);
 
     // Insert username and hashed password into 'users' table
     const result = await db.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword]);
@@ -88,7 +92,9 @@ app.post('/register', async (req, res) => {
 });
       
 app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+  //const { username, password } = req.body;
+  const username = req.body.input_username;
+  const password = req.body.input_password;
 
   try {
     // Find the user with the given username
@@ -119,6 +125,8 @@ app.post('/login', async (req, res) => {
     res.status(401).render('pages/login', { error: error.message });
   }
 });
+
+
 // Creating the user variable
 
 const user = {
