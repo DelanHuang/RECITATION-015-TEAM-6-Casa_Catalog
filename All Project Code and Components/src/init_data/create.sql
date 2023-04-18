@@ -29,6 +29,8 @@ CREATE TABLE products(
 DROP TABLE IF EXISTS all_products CASCADE;
 CREATE TABLE all_products(
     all_product_id SERIAL PRIMARY KEY NOT NULL,
+    all_product_name VARCHAR(50) NOT NULL
+    all_product_catagory VARCHAR(50) 
     current_price NUMERIC,
 );
 
