@@ -11,7 +11,7 @@
 }
 
 /* -----LOGIN PAGE----- */
-#form-login{
+#form_login{
     
     /* username and login box size */
     max-width: 380px;
@@ -21,7 +21,7 @@
     margin: auto;
 }
 
-#login-logo{
+#login_logo{
     /* center image */
     display: block;
     margin-left: auto;
@@ -34,14 +34,14 @@
 /* -----REGISTER PAGE---- */
 
 /* image alignment */
-#box-register1{
+#box_register1{
     float: left;
     margin-top: 90px;
     margin-left: 300px;
 }
 
 /* register input alignment boxes */
-#box-register2{
+#box_register2{
     float: right;
     margin-right: 200px;
     margin-top: 150px;
