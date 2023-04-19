@@ -90,10 +90,9 @@ app.post('/register', async (req, res) => {
     const result = await db.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword]);
 
     // Redirect to /login page after successful insert
-    res.redirect( {message: "Success"}, '/login' );
+    res.redirect( '/login' );
   } catch (error) {
     // Render the register page with an error message if the insert fails
-    res.json({status: 'fail', message: 'Registration failed'});
     res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
   }
 });
@@ -126,19 +125,20 @@ app.post('/login', async (req, res) => {
     req.session.save();
 
     // Redirect to the discover page after setting the session
-    res.redirect( {message: "Success"}, '/discover' );
+    res.redirect('/discover');
   } catch (error) {
     // Send an appropriate error message to the user and render the login page
-    res.json({status: 'fail', message: 'Incorrect username or password'});
-    //, message: "Incorrect username or password" 
-    res.status(401).render('pages/login', { error: error.message});
+    res.status(401).render('pages/login', { error: error.message, message: "Incorrect username or password" });
   }
 });
 
+app.get('/discover', (req, res) => {
+  res.render("pages/discover");
+});
 
 //Test route for lab 11
 app.get('/welcome', (req, res) => {
-  res.redirect({status: 'success', message: 'Welcome!'}, "/login");
+  res.json({status: 'success', message: 'Welcome!'});
 });
 
 
