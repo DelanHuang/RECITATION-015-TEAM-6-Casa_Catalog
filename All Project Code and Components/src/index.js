@@ -48,82 +48,93 @@ app.use(
     extended: true,
   })
 );
-//API Integration
-const auth = (req, res, next) => {
-    if (!req.session.user) {
-      // Default to login page.
-      return res.redirect('/login');
-    }
-    next();
-  };
-  
-  app.get('/login', (req, res) => {
-    res.render('pages/login');
-  });
-  app.get('/', (req, res) => {
-      res.redirect('/login');
-    });
-  
-  app.get('/register', (req, res) => {
-      res.render('pages/register');
-    });
-    
-    app.post('/register', async (req, res) => {
-        const { username, password } = req.body;
-      
-        try {
-          // Hash the password using bcrypt
-          const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      
-          // Insert username and hashed password into 'users' table
-          const result = await db.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword]);
-      
-          // Redirect to /login page after successful insert
-          res.redirect('/login');
-        } catch (error) {
-          // Render the register page with an error message if the insert fails
-          res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
-        }
-      });
-      
-  app.post('/login', async (req, res) => {
-        const { username, password } = req.body;
-      
-        try {
-          // Find the user with the given username
-          const [user] = await db.query('SELECT * FROM users WHERE username = $1', [username]);
-      
-          // If user is not found, redirect to register page
-          if (!user) {
-            res.redirect('/register');
-            return;
-          }
-      
-          // Compare the entered password with the hashed password in the database
-          const match = await bcrypt.compare(password, user.password);
-      
-          if (!match) {
-            // If the password is incorrect, throw an error
-            throw new Error('Incorrect username or password.');
-          }
-      
-          // Save the user in the session
-          req.session.user = user;
-          req.session.save();
-      
-          // Redirect to the discover page after setting the session
-          res.redirect('/discover');
-        } catch (error) {
-          // Send an appropriate error message to the user and render the login page
-          res.status(401).render('pages/login', { error: error.message });
-        }
-      });
 // Creating the user variable
 
 const user = {
-  username: undefined,
-  password: undefined,
+    username: undefined,
+    password: undefined,
+  };
+//API Integration
+const auth = (req, res, next) => {
+  if (!req.session.user) {
+    // Default to login page.
+    return res.redirect('/login');
+  }
+  next();
 };
+
+app.get('/', (req, res) => {
+  res.redirect('/home');
+});
+
+app.get('/home', (req, res) => {
+  res.render('pages/home');
+});
+  
+app.get('/login', (req, res) => {
+  res.render('pages/login');
+});
+  
+app.get('/register', (req, res) => {
+  res.render('pages/register');
+});
+    
+app.post('/register', async (req, res) => {
+  const username = req.body.input_username;
+  const password = req.body.input_password;
+  try {
+    // Hash the password using bcrypt
+    const hashedPassword = await bcrypt.hash(req.body.input_password, 10);
+
+    // Insert username and hashed password into 'users' table
+    const result = await db.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword]);
+
+    // Redirect to /login page after successful insert
+    res.redirect('/login');
+  } catch (error) {
+    // Render the register page with an error message if the insert fails
+    res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
+  }
+});
+      
+app.post('/login', async (req, res) => {
+  //const { username, password } = req.body;
+  const username = req.body.input_username;
+  const password = req.body.input_password;
+
+  try {
+    // Find the user with the given username
+    const [user] = await db.query('SELECT * FROM users WHERE username = $1', [username]);
+
+    // If user is not found, redirect to register page
+    if (!user) {
+      res.redirect('/register');
+      return;
+    }
+
+    // Compare the entered password with the hashed password in the database
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      // If the password is incorrect, throw an error
+      throw new Error('Incorrect username or password.');
+    }
+
+    // Save the user in the session
+    req.session.user = user;
+    req.session.save();
+
+    // Redirect to the discover page after setting the session
+    res.redirect('/discover');
+  } catch (error) {
+    // Send an appropriate error message to the user and render the login page
+    res.status(401).render('pages/login', { error: error.message });
+  }
+});
+
+
+// Creating the user variable
+
 
 // Starting the server
 
