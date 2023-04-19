@@ -132,6 +132,43 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.get("/discover", (req, res) => {
+
+  //axios.get(`https://dog.ceo/api/breeds/list/all`)
+  axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=harry%20potter%20phoenix`)
+    .then(results => {
+      console.log(results);
+      res.send(results.data);
+      //res.render("pages/discover", {results});
+    })
+    .catch(error => {
+      res.send(error);
+    });
+
+  /*axios({
+    url: `https://svcs.ebay.com/services/search/FindingService/v1?`,
+    method: 'GET',
+    dataType: 'json',
+    //headers: {
+    //  'Accept-Encoding': 'application/json',
+    //},
+    params: {
+      'Operation-Name': 'findItemsByKeywords',
+      'Service-Version': '1.0.0', 
+      'Security-AppName': 'AndrewZi-CasaCata-PRD-53ab496b1-879c446f',
+      'Response-Data-Format': 'JSON',
+      'keywords': 'harry,potter',
+    },
+  })
+    .then(results => {
+      console.log(results);
+      res.render("pages/discover", {results});
+    })
+    .catch(error => {
+      res.send(error);
+    });*/
+});
+
 
 // Creating the user variable
 
