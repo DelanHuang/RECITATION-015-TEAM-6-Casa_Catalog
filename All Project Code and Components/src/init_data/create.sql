@@ -1,5 +1,16 @@
 DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
-    username VARCHAR(50) PRIMARY KEY, 
+    userId SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL, 
     password VARCHAR(60) NOT NULL
+);
+
+CREATE TABLE watchlist (
+  id SERIAL PRIMARY KEY,
+  userId INTEGER NOT NULL,
+  productId INTEGER NOT NULL,
+  itemImage TEXT NOT NULL,
+  itemName TEXT NOT NULL,
+  itemPrice NUMERIC(10, 2) NOT NULL,
+  itemUrl TEXT NOT NULL
 );

@@ -161,6 +161,6 @@ app.get('/welcome', (req, res) => {
 
 // Starting the server
 
-module.exports = app.listen(3000); //For testing using command = npm run testandrun in docker-compose.yaml
-//app.listen(3000); //For running the application using command = npm start in docker-compose.yaml
+//module.exports = app.listen(3000); //For testing using command = npm run testandrun in docker-compose.yaml
+app.listen(3000); //For running the application using command = npm start in docker-compose.yaml
 console.log('Server is listening on port 3000');
