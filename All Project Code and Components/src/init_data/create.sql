@@ -4,7 +4,6 @@ CREATE TABLE user(
     user_id SERIAL PRIMARY KEY NOT NULL,
     username VARCHAR(50) PRIMARY KEY,
     password CHAR(60) NOT NULL,
-    admin BOOLEAN,
 );
 
 -- contains all the inventories created by the user 

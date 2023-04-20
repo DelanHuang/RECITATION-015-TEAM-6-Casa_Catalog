@@ -1,10 +1,10 @@
 -- User Test Data
-INSERT INTO user (username, password, admin) VALUES (admin, abc123, True) 
-INSERT INTO user (username, password, admin) VALUES (John Doe, 193753, False) 
-INSERT INTO user (username, password, admin) VALUES (Mary Jane, 131242, False)
-INSERT INTO user (username, password, admin) VALUES (Peter Parker, 123152, False)
-INSERT INTO user (username, password, admin) VALUES (Bruce Wayne, 027212, False)
-INSERT INTO user (username, password, admin) VALUES (Clack Kent, 281470, False)
+INSERT INTO user (username, password, admin) VALUES (admin, abc123) 
+INSERT INTO user (username, password, admin) VALUES (John Doe, 193753) 
+INSERT INTO user (username, password, admin) VALUES (Mary Jane, 131242)
+INSERT INTO user (username, password, admin) VALUES (Peter Parker, 123152)
+INSERT INTO user (username, password, admin) VALUES (Bruce Wayne, 027212)
+INSERT INTO user (username, password, admin) VALUES (Clack Kent, 281470)
 
 -- Inventory Test Data
 INSERT INTO inventory (inventory_name) VALUES (Living Room)
