@@ -91,7 +91,7 @@ app.post('/register', async (req, res) => {
     const result = await db.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword]);
 
     // Redirect to /login page after successful insert
-    res.redirect('/login');
+    res.redirect( '/login' );
   } catch (error) {
     // Render the register page with an error message if the insert fails
     res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
@@ -129,7 +129,7 @@ app.post('/login', async (req, res) => {
     res.redirect('/discover');
   } catch (error) {
     // Send an appropriate error message to the user and render the login page
-    res.status(401).render('pages/login', { error: error.message });
+    res.status(401).render('pages/login', { error: error.message, message: "Incorrect username or password" });
   }
 });
 
@@ -152,14 +152,15 @@ app.get("/discover", (req, res) => {
       res.send(error);
     });
 });
-  app.get('/discover', (req, res) => {
-    res.render('pages/discover');
-  });
 
-// Creating the user variable
+//Test route for lab 11
+app.get('/welcome', (req, res) => {
+  res.json({status: 'success', message: 'Welcome!'});
+});
 
 
 // Starting the server
 
-app.listen(3000);
+module.exports = app.listen(3000); //For testing using command = npm run testandrun in docker-compose.yaml
+//app.listen(3000); //For running the application using command = npm start in docker-compose.yaml
 console.log('Server is listening on port 3000');
