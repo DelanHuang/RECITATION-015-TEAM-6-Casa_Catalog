@@ -152,9 +152,6 @@ app.get("/discover", (req, res) => {
       res.send(error);
     });
 });
-  app.get('/discover', (req, res) => {
-    res.render('pages/discover');
-  });
 
 //Test route for lab 11
 app.get('/welcome', (req, res) => {
