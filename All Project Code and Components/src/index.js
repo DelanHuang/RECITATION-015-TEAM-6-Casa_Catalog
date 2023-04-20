@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // Used to set the session object
 const bcrypt = require('bcrypt'); // Used for hashing passwords
 const axios = require('axios'); // Used to make HTTP requests
+app.use(express.static('All Project Code and Components'));
 
 // Setting up the database
 
@@ -133,42 +134,27 @@ app.post('/login', async (req, res) => {
 });
 
 app.get("/discover", (req, res) => {
-
-  //axios.get(`https://dog.ceo/api/breeds/list/all`)
-  axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=harry%20potter%20phoenix`)
+  const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
+  axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
     .then(results => {
-      console.log(results);
-      res.send(results.data);
-      //res.render("pages/discover", {results});
+      const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
+      const items = products.map(product => {
+        const name = product.title[0];
+        const image = product.galleryURL[0];
+        const id = product.itemId[0];
+        const price = product.sellingStatus[0].currentPrice[0].__value__;
+        const url = product.viewItemURL[0];
+        return { name, image, id, price, url };
+      });
+      res.render("pages/discover", { items });
     })
     .catch(error => {
       res.send(error);
     });
-
-  /*axios({
-    url: `https://svcs.ebay.com/services/search/FindingService/v1?`,
-    method: 'GET',
-    dataType: 'json',
-    //headers: {
-    //  'Accept-Encoding': 'application/json',
-    //},
-    params: {
-      'Operation-Name': 'findItemsByKeywords',
-      'Service-Version': '1.0.0', 
-      'Security-AppName': 'AndrewZi-CasaCata-PRD-53ab496b1-879c446f',
-      'Response-Data-Format': 'JSON',
-      'keywords': 'harry,potter',
-    },
-  })
-    .then(results => {
-      console.log(results);
-      res.render("pages/discover", {results});
-    })
-    .catch(error => {
-      res.send(error);
-    });*/
 });
-
+  app.get('/discover', (req, res) => {
+    res.render('pages/discover');
+  });
 
 // Creating the user variable
 
