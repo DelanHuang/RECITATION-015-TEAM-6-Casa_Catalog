@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // Used to set the session object
 const bcrypt = require('bcrypt'); // Used for hashing passwords
 const axios = require('axios'); // Used to make HTTP requests
+app.use(express.static('All Project Code and Components'));
 
 // Setting up the database
 
@@ -90,7 +91,7 @@ app.post('/register', async (req, res) => {
     const result = await db.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword]);
 
     // Redirect to /login page after successful insert
-    res.redirect('/login');
+    res.redirect( '/login' );
   } catch (error) {
     // Render the register page with an error message if the insert fails
     res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
@@ -128,15 +129,38 @@ app.post('/login', async (req, res) => {
     res.redirect('/discover');
   } catch (error) {
     // Send an appropriate error message to the user and render the login page
-    res.status(401).render('pages/login', { error: error.message });
+    res.status(401).render('pages/login', { error: error.message, message: "Incorrect username or password" });
   }
 });
 
+app.get("/discover", (req, res) => {
+  const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
+  axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
+    .then(results => {
+      const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
+      const items = products.map(product => {
+        const name = product.title[0];
+        const image = product.galleryURL[0];
+        const id = product.itemId[0];
+        const price = product.sellingStatus[0].currentPrice[0].__value__;
+        const url = product.viewItemURL[0];
+        return { name, image, id, price, url };
+      });
+      res.render("pages/discover", { items });
+    })
+    .catch(error => {
+      res.send(error);
+    });
+});
 
-// Creating the user variable
+//Test route for lab 11
+app.get('/welcome', (req, res) => {
+  res.json({status: 'success', message: 'Welcome!'});
+});
 
 
 // Starting the server
 
-app.listen(3000);
+module.exports = app.listen(3000); //For testing using command = npm run testandrun in docker-compose.yaml
+//app.listen(3000); //For running the application using command = npm start in docker-compose.yaml
 console.log('Server is listening on port 3000');
