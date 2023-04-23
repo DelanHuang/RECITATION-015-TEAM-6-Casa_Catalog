@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // Used to set the session object
 const bcrypt = require('bcrypt'); // Used for hashing passwords
 const axios = require('axios'); // Used to make HTTP requests
-app.use(express.static('All Project Code and Components'));
+app.use(express.static('resources')); //Setting default path for static files
 
 // Setting up the database
 
