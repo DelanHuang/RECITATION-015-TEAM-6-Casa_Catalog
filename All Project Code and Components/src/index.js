@@ -94,6 +94,7 @@ app.post('/register', async (req, res) => {
     res.redirect( '/login' );
   } catch (error) {
     // Render the register page with an error message if the insert fails
+    res.locals.message = "Registration Failed. Please enter a unique username.";
     res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
   }
 });
@@ -129,6 +130,7 @@ app.post('/login', async (req, res) => {
     res.redirect('/discover');
   } catch (error) {
     // Send an appropriate error message to the user and render the login page
+    res.locals.message = "Incorrect username or password.";
     res.status(401).render('pages/login', { error: error.message, message: "Incorrect username or password" });
   }
 });
@@ -161,6 +163,6 @@ app.get('/welcome', (req, res) => {
 
 // Starting the server
 
-module.exports = app.listen(3000); //For testing using command = npm run testandrun in docker-compose.yaml
-//app.listen(3000); //For running the application using command = npm start in docker-compose.yaml
+//module.exports = app.listen(3000); //For testing using command = npm run testandrun in docker-compose.yaml
+app.listen(3000); //For running the application using command = npm start in docker-compose.yaml
 console.log('Server is listening on port 3000');
