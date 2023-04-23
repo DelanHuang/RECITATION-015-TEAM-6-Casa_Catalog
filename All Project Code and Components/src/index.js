@@ -20,6 +20,7 @@ const dbConfig = {
 
 const db = pgp(dbConfig);
 
+
 // Making sure the database connection was successful
 db.connect()
   .then(obj => {
@@ -79,6 +80,7 @@ app.get('/login', (req, res) => {
 app.get('/register', (req, res) => {
   res.render('pages/register');
 });
+
     
 app.post('/register', async (req, res) => {
   const username = req.body.input_username;
@@ -98,35 +100,29 @@ app.post('/register', async (req, res) => {
     res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
   }
 });
-      
 app.post('/login', async (req, res) => {
-  //const { username, password } = req.body;
   const username = req.body.input_username;
   const password = req.body.input_password;
 
   try {
-    // Find the user with the given username
     const [user] = await db.query('SELECT * FROM users WHERE username = $1', [username]);
 
-    // If user is not found, redirect to register page
     if (!user) {
       res.redirect('/register');
       return;
     }
 
-    // Compare the entered password with the hashed password in the database
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
-      // If the password is incorrect, throw an error
       throw new Error('Incorrect username or password.');
     }
 
-    // Save the user in the session
     req.session.user = user;
+    req.session.userid = user.userid; // Set the userId property in the session object
     req.session.save();
+  
 
-    // Redirect to the discover page after setting the session
     res.redirect('/discover');
   } catch (error) {
     // Send an appropriate error message to the user and render the login page
@@ -154,6 +150,55 @@ app.get("/discover", (req, res) => {
       res.send(error);
     });
 });
+
+app.get("/watchlist", async (req, res) => {
+  const userid = req.session.userid;
+  if (!userid) {
+    res.redirect("/login");
+    return;
+  }
+  try {
+    const watchlist = await db.query(
+      "SELECT * FROM watchlist WHERE userid = $1",
+      [userid]
+    );
+    res.render("pages/watchlist", { watchlist }); // pass watchlist data as a local variable
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.post("/watchlist", async (req, res) => {
+  const userid = req.session.userid;
+  const { productId, itemImage, itemName, itemPrice, itemUrl } = req.body;
+  if (!userid) {
+    res.redirect("/login");
+    return;
+  }
+  try {
+    await db.query(
+      "INSERT INTO watchlist (userid, productId, itemImage, itemName, itemPrice, itemUrl) VALUES ($1, $2, $3, $4, $5, $6)",
+      [userid, productId, itemImage, itemName, itemPrice, itemUrl]
+    );
+    res.redirect("/watchlist");
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.post('/watchlist/delete', async (req, res) => {
+  const itemId = req.body.itemId;
+  const sql = `DELETE FROM watchlist WHERE id = ${itemId}`;
+  try {
+    const result = await db.query(sql);
+    console.log(`Item with ID ${itemId} removed from watchlist.`);
+    res.redirect('/watchlist');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error removing item from watchlist');
+  }
+});
+
 
 //Test route for lab 11
 app.get('/welcome', (req, res) => {

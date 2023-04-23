@@ -1,9 +1,18 @@
 -- contains all users 
-DROP TABLE IF EXISTS user CASCADE;
-CREATE TABLE user(
-    user_id SERIAL PRIMARY KEY NOT NULL,
-    username VARCHAR(50) PRIMARY KEY,
-    password CHAR(60) NOT NULL,
+DROP TABLE IF EXISTS users CASCADE;
+CREATE TABLE users (
+    userId SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL, 
+        password CHAR(60) NOT NULL,
+);
+CREATE TABLE watchlist (
+  id SERIAL PRIMARY KEY,
+  userId INTEGER NOT NULL,
+  productId INTEGER NOT NULL,
+  itemImage TEXT NOT NULL,
+  itemName TEXT NOT NULL,
+  itemPrice NUMERIC(10, 2) NOT NULL,
+  itemUrl TEXT NOT NULL
 );
 
 -- contains all the inventories created by the user 
