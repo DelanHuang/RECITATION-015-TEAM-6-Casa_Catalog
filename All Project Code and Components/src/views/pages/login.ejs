@@ -1,45 +1,61 @@
 <%- include ('../partials/header') %> 
 <%- include ('../partials/navbar') %>
+<%- include ('../partials/message') %>
 
-<h1>Log In!</h1>
+<div id="box_login1">
+  <h1 style="text-align: center;">Log in</h1>
+</div>
 
-<main class="form-signin w-100 m-auto">
-  <form id="form_login" class="mt-5" action="/login" method="POST">
-    <img
-      id="login_logo"
-      class="mb-5"
-      src="img/Casa-Catalog-Logo.png"
-      alt="Casa Catalog Logo"
-    />
+<table class="center" style="width: 50%; margin-left: auto; margin-right: auto;">
+  <tr>
+    <td style="width: 40%;">
+      <img src="./img/Casa Catalog Logo.png" />
+    </td>
+    <td>
+      <main class="form-signin w-100 m-auto">
+        <form id="form_login" class="mt-5" action="/login" method="POST">
+          <h1 class="h3 mb-3 fw-normal"></h1>
+    
+          <div class="form-floating">
+            <input
+              type="username"
+              class="form-control"
+              id="login_username"
+              name = "input_username"
+              placeholder="username"
+            />
+            <label for="IDusername">Username</label>
+          </div>
+    
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              id="login_password"
+              name="input_password"
+              placeholder="Password"
+            />
+            <label for="IDpassword">Password</label>
+          </div>
+          
+          <table style="text-align: right; width: 98%;">
+            <tr>
+              <td style="width: 95px;">
+                <button class="w-20 btn btn-lg btn-primary mt-4" type="submit">
+                  Log in
+                </button>
+              </td>
+              <td>
+                New user?
+                <a href="/register" >Register</a>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </main>
+    </td>
+  </tr>
+</table>
 
-    <h1 class="h3 mb-3 fw-normal"></h1>
-
-    <div class="form-floating">
-      <input
-        type="username"
-        class="form-control"
-        id="login_username"
-        name = "input_username"
-        placeholder="username"
-      />
-      <label for="IDusername">Username</label>
-    </div>
-
-    <div class="form-floating">
-      <input
-        type="password"
-        class="form-control"
-        id="login_password"
-        name="input_password"
-        placeholder="Password"
-      />
-      <label for="IDpassword">Password</label>
-    </div>
-
-    <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">
-      Log in
-    </button>
-  </form>
-</main>
 
 <%- include ('../partials/footer') %>
