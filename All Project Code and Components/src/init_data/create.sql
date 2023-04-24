@@ -6,6 +6,7 @@ CREATE TABLE users (
     password CHAR(60) NOT NULL
 );
 
+
 CREATE TABLE watchlist (
   id SERIAL PRIMARY KEY,
   userId INTEGER NOT NULL,
@@ -27,7 +28,7 @@ CREATE TABLE inventory(
 -- holds all items in a given inventory
 DROP TABLE IF EXISTS product CASCADE;
 CREATE TABLE products(
-    product_id SERIAL PRIMARY KEY,
+product_id SERIAL PRIMARY KEY,
     product_name VARCHAR(50) NOT NULL,
     product_category VARCHAR(50), 
     product_quantity INT,
