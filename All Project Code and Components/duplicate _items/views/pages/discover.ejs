@@ -1,0 +1,182 @@
+<%- include ('../partials/header') %> 
+<%- include ('../partials/navbar') %>
+<div class="container" style="background-color: lavender;">
+    <form id="search-form" action="/discover" method="GET">
+      <input type="text" id="search-input" name="q" placeholder="Search for items">
+      <button type="submit">Search</button>
+    </form>
+    <div class="row">
+      <div class="col-12 col-xl-4">
+
+        <!-- Projects -->
+        <div class="card card-fill">
+          <div class="card-header">
+
+            <!-- Title -->
+            <h4 class="card-header-title">
+              Current Item
+            </h4>
+
+          </div>
+          <div class="card-body">
+
+            <!-- List group -->
+            <div class="list-group list-group-flush my-n3">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+   
+                  <div class="col ms-n2">
+
+                    <!-- Title -->
+                    <h4 class="mb-1">
+                      <p>Product Name</p>
+                    </h4>
+
+                 
+
+                  </div>
+        
+                </div> <!-- / .row -->
+              </div>
+
+              <div class="list-group-item">
+                <div class="row align-items-center">
+             
+                  <div class="col ms-n2">
+
+                    <!-- Title -->
+                    <h4 class="mb-1">
+                      <p>Last Purchase</p>
+                    </h4>
+
+          
+
+                  </div>
+             
+                </div> <!-- / .row -->
+              </div>
+              <div class="list-group-item">
+                <div class="row align-items-center">
+   
+                  <div class="col ms-n2">
+
+                    <!-- Title -->
+                    <h4 class="mb-1">
+                      <p>Expected Price</p>
+                    </h4>                
+
+                  </div>
+        
+                </div> <!-- / .row -->
+              </div>
+            </div>
+
+          </div> <!-- / .card-body -->
+        </div> <!-- / .card -->
+
+      </div>
+
+      <div class="col-12 col-xl-8">   
+        <div class = "container" style = "background-color: seashell">
+       <% items.forEach(item => { %>
+        <div class="col-md-4">
+          <div class="card mb-4 box-shadow">
+            <img class="card-img-top" src="<%= item.image %>" alt="Card image cap" style="max-width: 100%;">
+            <div class="card-body">
+              <div class="card-header"><%= item.name %></div>
+              <p class="card-text">Price: $<%= item.price %></p>
+              <a href="<%= item.url %>" class="btn btn-primary" target="_blank">Buy Now</a>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+      </div>
+      </div>
+    </div>
+  </div>
+<style>
+/* Center the search form */
+#search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+/* Style the search input */
+#search-input {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-right: 10px;
+  font-size: 16px;
+  background-color: #f4f4f4;
+}
+
+/* Style the search button */
+#search-form button {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover effect for search button */
+#search-form button:hover {
+  background-color: #0069d9;
+}
+
+/* Style the cards */
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover effect for cards */
+.card:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-5px);
+}
+
+/* Style the card titles */
+.card-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Style the card text */
+.card-text {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+/* Style the Buy Now button */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+/* Hover effect for Buy Now button */
+.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+/* Style the container */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 50px 20px;
+}
+</style>
+  
+  
+
+
+<%- include ('../partials/footer') %>
