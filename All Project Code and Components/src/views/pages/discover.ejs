@@ -112,15 +112,21 @@
             <div class="card-body">
               <div class="card-header"><%= item.name %></div>
               <div class="d-flex fw-semibold align-items-center">
-      
                 <!--begin::Label-->
                 <div class="text-gray-500 flex-grow-1 me-4">Price</div>
                 <!--end::Label-->
 
                 <div class="fw-bolder text-gray-700 text-xxl-end">$<%= item.price %></div>
             </div>
-             
               <a href="<%= item.url %>" class="btn btn-primary" target="_blank">Buy Now</a>
+              <form action="/watchlist" method="POST">
+                <input type="hidden" name="productId" value="<%= item.id %>">
+                <input type="hidden" name="itemImage" value="<%= item.image %>">
+                <input type="hidden" name="itemName" value="<%= item.name %>">
+                <input type="hidden" name="itemPrice" value="<%= item.price %>">
+                <input type="hidden" name="itemUrl" value="<%= item.url %>">
+                <button type="submit" class="btn btn-secondary">Add to Watchlist</button>
+              </form>
             </div>
           </div>
         </div>
