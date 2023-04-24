@@ -53,9 +53,10 @@ app.use(
 // Creating the user variable
 
 const user = {
-    username: undefined,
-    password: undefined,
-  };
+  userid: undefined,
+  username: undefined,
+  password: undefined,
+};
 
 // Allow the use of static files, such as images. 
 // An image path will be defined as img/<FILENAME>
@@ -87,7 +88,6 @@ app.get('/register', (req, res) => {
   res.render('pages/register');
 });
 
-    
 app.post('/register', async (req, res) => {
   const username = req.body.input_username;
   const password = req.body.input_password;
@@ -106,6 +106,7 @@ app.post('/register', async (req, res) => {
     res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
   }
 });
+
 app.post('/login', async (req, res) => {
   const username = req.body.input_username;
   const password = req.body.input_password;
@@ -138,6 +139,12 @@ app.post('/login', async (req, res) => {
 });
 
 app.get("/discover", (req, res) => {
+  const userid = req.session.userid;
+  if (!userid) {
+    res.locals.message = "Please log in to access these features. If you are new, please register.";
+    res.redirect("/login");
+    return;
+  }
   const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
   axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
     .then(results => {
@@ -160,6 +167,7 @@ app.get("/discover", (req, res) => {
 app.get("/watchlist", async (req, res) => {
   const userid = req.session.userid;
   if (!userid) {
+    res.locals.message = "Please log in to access these features. If you are new, please register.";
     res.redirect("/login");
     return;
   }
@@ -205,6 +213,30 @@ app.post('/watchlist/delete', async (req, res) => {
   }
 });
 
+app.get('/notifications', (req, res) => {
+  const userid = req.session.userid;
+  if (!userid) {
+    res.locals.message = "Please log in to access these features. If you are new, please register.";
+    res.redirect("/login");
+    return;
+  }
+  try{
+    res.render('pages/notifications');
+  } catch (err) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.get ("/logout", (req, res) => {
+  user.username = undefined;
+  user.password = undefined;
+  user.userid = undefined;
+  req.session.userid = undefined;
+  req.session.save();
+
+  res.locals.message = 'Logged out Successfully';
+  res.render("pages/login");
+});
 
 //Test route for lab 11
 app.get('/welcome', (req, res) => {

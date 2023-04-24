@@ -1,0 +1,65 @@
+<%- include ('../partials/header') %> 
+<%- include ('../partials/navbar') %>
+
+<div id="notifications_header">
+    <h1 style="text-align: center;">
+        Price Notifications
+    </h1>
+</div>
+
+<div id="notifications_body">
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Items that meet your price
+                </th>
+                <th>
+                    Items at an all time low price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <th>Image</th>
+                            <th>Current Price</th>
+                            <th>Your Price</th>
+                            <th>Buy Now</th>
+                        </tr>
+                        <tr>
+                            <td><img src="/" alt="Example image" style="max-width: 100px;"></td>
+                            <td>Item name</td>
+                            <td>Current price</td>
+                            <td>Your price</td>
+                            <td>
+                              <a href="/" class="buy-btn">Buy</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <th>Image</th>
+                            <th>Current All Time Low Price</th>
+                            <th>Buy Now</th>
+                        </tr>
+                        <tr>
+                            <td><img src="/" alt="Example image" style="max-width: 100px;"></td>
+                            <td>Item name</td>
+                            <td>Current price</td>
+                            <td>
+                              <a href="/" class="buy-btn">Buy</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<%- include ('../partials/footer') %>
