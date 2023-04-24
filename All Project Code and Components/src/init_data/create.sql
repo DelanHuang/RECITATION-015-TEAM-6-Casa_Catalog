@@ -6,30 +6,31 @@ CREATE TABLE users (
     password CHAR(60) NOT NULL
 );
 
-DROP TABLE IF EXISTS watchlist CASCADE;
+
 CREATE TABLE watchlist (
   id SERIAL PRIMARY KEY,
   userId INTEGER NOT NULL,
-  productId INTEGER NOT NULL,
+  productId BIGINT NOT NULL,
   itemImage TEXT NOT NULL,
   itemName TEXT NOT NULL,
   itemPrice NUMERIC(10, 2) NOT NULL,
-  itemUrl TEXT NOT NULL
+  itemUrl TEXT NOT NULL,
+  watchPrice NUMERIC(10, 2)
 );
 
 -- contains all the inventories created by the user 
 DROP TABLE IF EXISTS inventory CASCADE;
 CREATE TABLE inventory(
-    inventory_id SERIAL PRIMARY KEY NOT NULL,
+    inventory_id SERIAL PRIMARY KEY,
     inventory_name VARCHAR(50) NOT NULL
 );
 
 -- holds all items in a given inventory
 DROP TABLE IF EXISTS product CASCADE;
 CREATE TABLE products(
-    product_id SERIAL PRIMARY KEY NOT NULL,
+product_id SERIAL PRIMARY KEY,
     product_name VARCHAR(50) NOT NULL,
-    product_catagory VARCHAR(50), 
+    product_category VARCHAR(50), 
     product_quantity INT,
     last_price NUMERIC,
     last_purchase DATE
@@ -38,9 +39,9 @@ CREATE TABLE products(
 -- holds all items we have scraped 
 DROP TABLE IF EXISTS all_products CASCADE;
 CREATE TABLE all_products(
-    all_product_id SERIAL PRIMARY KEY NOT NULL,
+    all_product_id SERIAL PRIMARY KEY,
     all_product_name VARCHAR(50) NOT NULL,
-    all_product_catagory VARCHAR(50),
+    all_product_category VARCHAR(50), 
     current_price NUMERIC
 );
 
@@ -61,7 +62,7 @@ CREATE TABLE inventory_to_products(
 );
 
 DROP TABLE IF EXISTS products_to_all_products CASCADE;
-CREATE TABLE products_to__all_products(
+CREATE TABLE products_to_all_products(
     product_id INT NOT NULL,
     all_product_id INT NOT NULL,
     FOREIGN KEY (product_id) REFERENCES products(product_id),
