@@ -182,23 +182,26 @@ app.get("/watchlist", async (req, res) => {
   }
 });
 
+
 app.post("/watchlist", async (req, res) => {
   const userid = req.session.userid;
   const { productId, itemImage, itemName, itemPrice, itemUrl } = req.body;
+  const watchPrice = req.body.watchPrice || (itemPrice * 0.98); // Set watchPrice to 2% less than itemPrice if not specified
   if (!userid) {
     res.redirect("/login");
     return;
   }
   try {
     await db.query(
-      "INSERT INTO watchlist (userid, productId, itemImage, itemName, itemPrice, itemUrl) VALUES ($1, $2, $3, $4, $5, $6)",
-      [userid, productId, itemImage, itemName, itemPrice, itemUrl]
+      "INSERT INTO watchlist (userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+      [userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice]
     );
     res.redirect("/watchlist");
   } catch (error) {
     res.status(500).send(error.message);
   }
 });
+
 
 app.post('/watchlist/delete', async (req, res) => {
   const itemId = req.body.itemId;
@@ -210,6 +213,20 @@ app.post('/watchlist/delete', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error removing item from watchlist');
+  }
+});
+
+app.post("/watchlist/update-price", async (req, res) => {
+  const itemId = req.body.itemId;
+  const watchPrice = req.body.watchPrice;
+  try {
+    await db.query(
+      "UPDATE watchlist SET watchprice = $1 WHERE id = $2",
+      [watchPrice, itemId]
+    );
+    res.redirect("/watchlist");
+  } catch (error) {
+    res.status(500).send(error.message);
   }
 });
 
