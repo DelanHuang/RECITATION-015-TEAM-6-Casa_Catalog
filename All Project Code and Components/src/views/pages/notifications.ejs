@@ -8,26 +8,19 @@
 </div>
 
 <div id="notifications_body">
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    Items that meet your price
-                </th>
-                <th>
-                    Items at an all time low price
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <table>
+    <div class="row" style="width: 90%; margin-left: auto; margin-right: auto;">
+        <div class="col-sm">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Items That Meet Your Price</h5>
+                    <p class="card-text">If an item meets the price you listed as fair, it will be displayed here.</p>
+                    <table id="price_met_table" style="width: fit-content; margin-left: auto; margin-right: auto;">
                         <tr>
-                            <th>Image</th>
-                            <th>Current Price</th>
-                            <th>Your Price</th>
-                            <th>Buy Now</th>
+                            <th style="width: 15%;">Image</th>
+                            <th style="width: 35%;">Item Name</th>
+                            <th style="width: 20%;">Current Price</th>
+                            <th style="width: 20%;">Your Price</th>
+                            <th style="width: 10%;">Buy Now</th>
                         </tr>
                         <tr>
                             <td><img src="/" alt="Example image" style="max-width: 100px;"></td>
@@ -35,31 +28,40 @@
                             <td>Current price</td>
                             <td>Your price</td>
                             <td>
-                              <a href="/" class="buy-btn">Buy</a>
+                                <a href="#" class="btn btn-primary" target="_blank">Buy</a>
                             </td>
                         </tr>
                     </table>
-                </td>
-                <td>
-                    <table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Items at an all time low price</h5>
+                    <p class="card-text">These items are at the lowest point we have recorded. Might be a good deal.</p>
+                    <table id="low_price_table"  style="width: fit-content; margin-left: auto; margin-right: auto;">
                         <tr>
-                            <th>Image</th>
-                            <th>Current All Time Low Price</th>
-                            <th>Buy Now</th>
+                            <th style="width: 15%;">Image</th>
+                            <th style="width: 35%;">Item Name</th>
+                            <th style="width: 20%;">Current Low Price</th>
+                            <th style="width: 20%;">Initial Price</th>
+                            <th style="width: 10%;">Buy Now</th>
                         </tr>
                         <tr>
                             <td><img src="/" alt="Example image" style="max-width: 100px;"></td>
                             <td>Item name</td>
                             <td>Current price</td>
+                            <td>Initial price</td>
                             <td>
-                              <a href="/" class="buy-btn">Buy</a>
+                                <a href="#" class="btn btn-primary" target="_blank">Buy</a>
                             </td>
                         </tr>
                     </table>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <%- include ('../partials/footer') %>

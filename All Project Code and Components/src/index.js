@@ -245,14 +245,19 @@ app.get('/notifications', (req, res) => {
 });
 
 app.get ("/logout", (req, res) => {
+  if (!req.session.userid) {
+    res.locals.message = 'You were not logged in.'; // If the user was not logged in, this message will display
+  } else {
+    res.locals.message = 'Logged out Successfully.'; // Otherwise they have logged out successfully
+  }
+
   user.username = undefined;
   user.password = undefined;
-  user.userid = undefined;
+  user.userid = undefined; // Resetting the session variable
   req.session.userid = undefined;
   req.session.save();
-
-  res.locals.message = 'Logged out Successfully';
-  res.render("pages/login");
+  
+  res.render("pages/login"); // Redirection the user to the login page
 });
 
 //Test route for lab 11
