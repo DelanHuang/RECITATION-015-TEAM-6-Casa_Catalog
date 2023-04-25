@@ -8,97 +8,66 @@
     #e6a055
     ;">Search</button>
   </form>
-  <div class="container" style="padding: 50px; background-color: seashell; width= 80%" >
-   
-
-
+  <div class="container" style="padding: 50px; background-color: seashell; width: 80%">
     <div class="row">
       <div class="col-12 col-xl-4">
-
         <!-- Projects -->
         <div class = "container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:30px">
         <div class="card card-fill" >
           <div class="card-header" >
-
             <!-- Title -->
             <h4 class="card-header-title" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:gray">
               Current Item
             </h4>
-
           </div>
           <div class="card-body">
-
             <!-- List group -->
             <div class="list-group list-group-flush my-n3">
               <div class="list-group-item">
                 <div class="row align-items-center">
-   
                   <div class="col ms-n2">
-
                     <!-- Title -->
                     <h4 class="mb-1">
                       <div class="text-gray-500 flex-grow-1 me-4">Product Name</div>
-                      <div class="fw-bolder text-gray-700 text-xxl-end">Baseball </div>
+                      <div class="fw-bolder text-gray-700 text-xxl-end"><%= searchTerm %></div>
                     </h4>
-
-                 
-
                   </div>
-        
                 </div> <!-- / .row -->
               </div>
-
               <div class="list-group-item">
                 <div class="row align-items-center">
-             
                   <div class="col ms-n2">
-
                     <!-- Title -->
                     <h4 class="mb-1">
                       <p>Last Purchase</p>
                     </h4>
-
-          
-
-                  </div>
-             
+                  </div>             
                 </div> <!-- / .row -->
               </div>
               <div class="list-group-item">
-                <div class="row align-items-center">
-   
+                <div class="row align-items-center">   
                   <div class="col ms-n2">
-
                     <!-- Title -->
                     <h4 class="mb-1">
                       <p>Expected Price</p>
                     </h4>                
-
                   </div>
-        
                 </div> <!-- / .row -->
               </div>
-
               <div class="list-group-item">
                 <div class="row align-items-center">
-   
                   <div class="col ms-n2">
-
                     <!-- Title -->
                     <h4 class="mb-1">
                       <div class="text-gray-500 flex-grow-1 me-4">Purchaser</div>
                       <div class="fw-bolder text-gray-700 text-xxl-end">Mark</div>
                     </h4>                
-
-                  </div>
-        
+                  </div>        
                 </div> <!-- / .row -->
               </div>
             </div>
-
           </div> <!-- / .card-body -->
         </div> <!-- / .card -->
-
       </div>
 </div>
       <div class="col-12 col-xl-8">   
@@ -115,7 +84,6 @@
                 <!--begin::Label-->
                 <div class="text-gray-500 flex-grow-1 me-4">Price</div>
                 <!--end::Label-->
-
                 <div class="fw-bolder text-gray-700 text-xxl-end">$<%= item.price %></div>
             </div>
               <a href="<%= item.url %>" class="btn btn-primary" target="_blank">Buy Now</a>
@@ -139,7 +107,6 @@
 </div>
   </main>
 <style>
-
 /* Center the search form */
 #search-form {
   display: flex;

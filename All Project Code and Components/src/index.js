@@ -137,6 +137,25 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// app.get("/discover", (req, res) => {
+//   const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
+//   axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
+//     .then(results => {
+//       const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
+//       const items = products.map(product => {
+//         const name = product.title[0];
+//         const image = product.galleryURL[0];
+//         const id = product.itemId[0];
+//         const price = product.sellingStatus[0].currentPrice[0].__value__;
+//         const url = product.viewItemURL[0];
+//         return { name, image, id, price, url };
+//       });
+//       res.render("pages/discover", { items });
+//     })
+//     .catch(error => {
+//       res.send(error);
+//     });
+// });
 app.get("/discover", (req, res) => {
   const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
   axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
@@ -150,13 +169,12 @@ app.get("/discover", (req, res) => {
         const url = product.viewItemURL[0];
         return { name, image, id, price, url };
       });
-      res.render("pages/discover", { items });
+      res.render("pages/discover", { items, searchTerm });
     })
     .catch(error => {
       res.send(error);
     });
 });
-
 app.get("/watchlist", async (req, res) => {
   const userid = req.session.userid;
   if (!userid) {
@@ -173,7 +191,6 @@ app.get("/watchlist", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-
 
 app.post("/watchlist", async (req, res) => {
   const userid = req.session.userid;
