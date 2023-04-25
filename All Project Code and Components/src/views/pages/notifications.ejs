@@ -22,15 +22,17 @@
                             <th style="width: 20%;">Your Price</th>
                             <th style="width: 10%;">Buy Now</th>
                         </tr>
-                        <tr>
-                            <td><img src="/" alt="Example image" style="max-width: 100px;"></td>
-                            <td>Item name</td>
-                            <td>Current price</td>
-                            <td>Your price</td>
-                            <td>
-                                <a href="#" class="btn btn-primary" target="_blank">Buy</a>
-                            </td>
-                        </tr>
+                        <% watchlistMeet.forEach(item => { %>
+                            <tr>
+                                <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;"></td>
+                                <td><%= item.itemname %></td>
+                                <td><%= item.itemprice %></td>
+                                <td><%= item.watchprice %></td>
+                                <td>
+                                    <a href="<%= item.itemurl %>" class="btn btn-primary" target="_blank">Buy</a>
+                                </td>
+                            </tr>
+                        <% }); %>
                     </table>
                 </div>
             </div>
@@ -48,15 +50,17 @@
                             <th style="width: 20%;">Initial Price</th>
                             <th style="width: 10%;">Buy Now</th>
                         </tr>
-                        <tr>
-                            <td><img src="/" alt="Example image" style="max-width: 100px;"></td>
-                            <td>Item name</td>
-                            <td>Current price</td>
-                            <td>Initial price</td>
-                            <td>
-                                <a href="#" class="btn btn-primary" target="_blank">Buy</a>
-                            </td>
-                        </tr>
+                        <% watchlistLow.forEach(item => { %>
+                            <tr>
+                                <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;"></td>
+                                <td><%= item.itemname %></td>
+                                <td><%= item.itemprice %></td>
+                                <td><%= item.initialprice %></td>
+                                <td>
+                                    <a href="<%= item.itemurl %>" class="btn btn-primary" target="_blank">Buy</a>
+                                </td>
+                            </tr>
+                        <% }); %>
                     </table>
                 </div>
             </div>

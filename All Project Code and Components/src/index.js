@@ -247,7 +247,7 @@ app.post("/watchlist/update-price", async (req, res) => {
   }
 });
 
-app.get('/notifications', (req, res) => {
+app.get('/notifications', async (req, res) => {
   const userid = req.session.userid;
   if (!userid) {
     res.locals.message = "Please log in to access these features. If you are new, please register.";
@@ -255,7 +255,15 @@ app.get('/notifications', (req, res) => {
     return;
   }
   try{
-    res.render('pages/notifications');
+    const watchlistMeet = await db.query(
+      "SELECT * FROM watchlist WHERE userid = $1 AND itemPrice < watchPrice;",
+      [userid]
+    );
+    const watchlistLow = await db.query(
+      "SELECT * FROM watchlist WHERE userid = $1  AND itemPrice = lowPrice;",
+      [userid]
+    );
+    res.render('pages/notifications', { watchlistMeet, watchlistLow });
   } catch (err) {
     res.status(500).send(error.message);
   }

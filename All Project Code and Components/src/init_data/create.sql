@@ -14,6 +14,8 @@ CREATE TABLE watchlist (
   itemImage TEXT NOT NULL,
   itemName TEXT NOT NULL,
   itemPrice NUMERIC(10, 2) NOT NULL,
+  initialPrice NUMERIC(10, 2),
+  lowPrice NUMERIC(10, 2),
   itemUrl TEXT NOT NULL,
   watchPrice NUMERIC(10, 2)
 );
@@ -26,7 +28,7 @@ CREATE TABLE inventory(
 );
 
 -- holds all items in a given inventory
-DROP TABLE IF EXISTS product CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
 CREATE TABLE products(
 product_id SERIAL PRIMARY KEY,
     product_name VARCHAR(50) NOT NULL,
