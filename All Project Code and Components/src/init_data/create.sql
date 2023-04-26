@@ -6,11 +6,7 @@ CREATE TABLE users (
     password CHAR(60) NOT NULL
 );
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS watchlist CASCADE;
-=======
 
->>>>>>> main
 CREATE TABLE watchlist (
   id SERIAL PRIMARY KEY,
   userId INTEGER NOT NULL,
@@ -27,22 +23,14 @@ CREATE TABLE watchlist (
 -- contains all the inventories created by the user 
 DROP TABLE IF EXISTS inventory CASCADE;
 CREATE TABLE inventory(
-<<<<<<< HEAD
-    inventory_id SERIAL PRIMARY KEY NOT NULL,
-=======
     inventory_id SERIAL PRIMARY KEY,
->>>>>>> main
     inventory_name VARCHAR(50) NOT NULL
 );
 
 -- holds all items in a given inventory
 DROP TABLE IF EXISTS products CASCADE;
 CREATE TABLE products(
-<<<<<<< HEAD
-    product_id SERIAL PRIMARY KEY NOT NULL,
-=======
 product_id SERIAL PRIMARY KEY,
->>>>>>> main
     product_name VARCHAR(50) NOT NULL,
     product_category VARCHAR(50), 
     product_quantity INT,
@@ -53,15 +41,9 @@ product_id SERIAL PRIMARY KEY,
 -- holds all items we have scraped 
 DROP TABLE IF EXISTS all_products CASCADE;
 CREATE TABLE all_products(
-<<<<<<< HEAD
-    all_product_id SERIAL PRIMARY KEY NOT NULL,
-    all_product_name VARCHAR(50) NOT NULL,
-    all_product_catagory VARCHAR(50),
-=======
     all_product_id SERIAL PRIMARY KEY,
     all_product_name VARCHAR(50) NOT NULL,
     all_product_category VARCHAR(50), 
->>>>>>> main
     current_price NUMERIC
 );
 
@@ -87,8 +69,4 @@ CREATE TABLE products_to_all_products(
     all_product_id INT NOT NULL,
     FOREIGN KEY (product_id) REFERENCES products(product_id),
     FOREIGN KEY (all_product_id) REFERENCES all_products(all_product_id)
-<<<<<<< HEAD
 );
-=======
-);
->>>>>>> main
