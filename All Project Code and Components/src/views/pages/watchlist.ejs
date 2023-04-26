@@ -67,83 +67,47 @@
         background-color: #3e8e41;
       }
     </style>
-    </head>
-    <script>
-      function showAlert() {
-        alert("Watch price updated!");
-      }
-    </script>
-    <body>
-      <h1>My Watchlist</h1>
-      <p>Total items: <%= watchlist.length %></p>
-      <table>
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Watch Price</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% watchlist.forEach(item => { %>
-            <tr>
-              <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;"></td>
-              <td><%= item.itemname %></td>
-              <td>$<%= item.itemprice %></td>
-              <td>
-                <form method="POST" action="/watchlist/update-price" onsubmit="showAlert()">
-                  <input type="hidden" name="itemId" value="<%= item.id %>">
-                  <input type="number" step="0.01" name="watchPrice" value="<%= item.watchprice %>" required>
-                  <button type="submit">Update</button>
-                </form>
-              </td>
-              <td>
-                <form id="deleteForm" method="POST" action="/watchlist/delete">
-                  <input type="hidden" name="itemId" value="<%= item.id %>">
-                  <button type="submit">Remove</button>
-                </form>
-                <a href="<%= item.itemurl %>" class="buy-btn">Buy</a>
-              </td>
-            </tr>
-          <% }); %>
-        </tbody>
-      </table>
-    </body>
-    </html>
-  <!-- </head>
-  <body>
-    <h1>My Watchlist</h1>
-    <p>Total items: <%= watchlist.length %></p>
-    <table>
-      <thead>
+</head>
+<body>
+  <h1>My Watchlist</h1>
+  <p>Total items: <%= watchlist.length %></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Watch Price</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% watchlist.forEach(item => { %>
         <tr>
-          <th>Image</th>
-          <th>Name</th>
-          <th>Price</th>
-          <th>Action</th>
+          <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;"></td>
+          <td><%= item.itemname %></td>
+          <td>$<%= item.itemprice %></td>
+          <td>
+            <form method="POST" action="/watchlist/update-price">
+              <input type="hidden" name="itemId" value="<%= item.id %>">
+              <input type="number" step="0.01" name="watchPrice" value="<%= item.watchprice %>" required>
+              <button type="submit">Update</button>
+            </form>
+          </td>
+          <td>
+            <form id="deleteForm" method="POST" action="/watchlist/delete">
+              <input type="hidden" name="itemId" value="<%= item.id %>">
+              <button type="submit">Remove</button>
+            </form>
+            <a href="<%= item.itemurl %>" class="buy-btn">Buy</a>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <% watchlist.forEach(item => { %>
-          <tr>
-            <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;"></td>
-            <td><%= item.itemname %></td>
-            <td>$<%= item.itemprice %></td>
-            <td>
-              <form id="deleteForm" method="POST" action="/watchlist/delete">
-                <input type="hidden" name="itemId" value="<%= item.id %>">
-                <button type="submit">Remove</button>
-              </form>
-              <a href="<%= item.itemurl %>" class="buy-btn">Buy</a>
-            </td>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
-  </body>
-</html> -->
+      <% }); %>
+    </tbody>
+  </table>
+</body>
+</html>
+
 
 
 <%- include ('../partials/footer') %>
