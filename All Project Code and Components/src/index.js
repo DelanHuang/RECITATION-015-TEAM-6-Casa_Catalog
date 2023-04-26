@@ -221,7 +221,7 @@ app.post("/watchlist/update-price", async (req, res) => {
   const watchPrice = req.body.watchPrice;
   try {
     await db.query(
-      "UPDATE watchlist SET watchPrice = $1 WHERE id = $2",
+      "UPDATE watchlist SET watchprice = $1 WHERE id = $2",
       [watchPrice, itemId]
     );
     res.redirect('/watchlist');
