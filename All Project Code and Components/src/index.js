@@ -164,6 +164,7 @@ app.get("/discover", (req, res) => {
     });
 });
 app.get("/watchlist", async (req, res) => {
+
   const userid = req.session.userid;
   if (!userid) {
     res.locals.message = "Please log in to access these features. If you are new, please register.";
@@ -220,7 +221,7 @@ app.post("/watchlist/update-price", async (req, res) => {
   const watchPrice = req.body.watchPrice;
   try {
     await db.query(
-      "UPDATE watchlist SET watchprice = $1 WHERE id = $2",
+      "UPDATE watchlist SET watchPrice = $1 WHERE id = $2",
       [watchPrice, itemId]
     );
     res.redirect('/watchlist');
