@@ -130,7 +130,51 @@ app.post('/login', async (req, res) => {
     req.session.userid = user.userid; // Set the userId property in the session object
     req.session.save();
   
+    // Updating the current and low prices for watchlist items.
+    const watchlistData = await db.query(
+      "SELECT * FROM watchlist WHERE userid = $1;", //Getting all the users watchlist items
+      [user.userid]
+    );
+    for (var i = 0; i < watchlistData.length; i++) {
+      const searchTerm = watchlistData[i].itemname; //Searching for products matching item name
+      //console.log(i);
+      await axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
+      .then( async (results) => {
+        const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
+        const items = products.map(product => { //Getting product data
+          const name = product.title[0];
+          const id = product.itemId[0];
+          const price = product.sellingStatus[0].currentPrice[0].__value__;
+          return { name, id, price };
+        });
+        if (items) {
+          for(var j = 0; j < items.length; j++) { //Looping through results
+            if (items[j].id = watchlistData[i].productid) { //Finding the product that matches product ids (almost always the first result but good to check)
+              //console.log(items[j]);
+              if (parseFloat(items[j].price) != parseFloat(watchlistData[i].itemprice)) { //Finding if price and lowprice need to be updated
+                if (parseFloat(items[j].price) < parseFloat(watchlistData[i].lowprice)) {
+                  //console.log(`NEW LOW PRICE FOR ITEM '${i}'. Current Price: '${items[j].price}', Previous Low Price: '${watchlistData[i].lowprice}'`)
+                  //Update current and low price
+                  const updateLow = await db.query(
+                    "UPDATE watchlist SET itemprice = $1, lowprice = $1 WHERE userid = $2 AND productid = $3;",
+                    [items[j].price, user.userid, watchlistData[i].productid]
+                  );
+                } else {
+                  //Update current price
+                  const updatePrice = await db.query(
+                    "UPDATE watchlist SET itemprice = $1 WHERE userid = $2 AND productid = $3;",
+                    [items[j].price, user.userid, watchlistData[i].productid]
+                  );
+                }
+              }
+              break;
+            }
+          }
+        }
+      })
+    }
 
+    //Sending the user to the discover page
     res.redirect('/discover');
   } catch (error) {
     // Send an appropriate error message to the user and render the login page
@@ -147,23 +191,24 @@ app.get("/discover", (req, res) => {
     return;
   }
   else{res.locals.message = "Welcome to the Discover Page!"};
-  const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
-  axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
-    .then(results => {
-      const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
-      const items = products.map(product => {
-        const name = product.title[0];
-        const image = product.galleryURL[0];
-        const id = product.itemId[0];
-        const price = product.sellingStatus[0].currentPrice[0].__value__;
-        const url = product.viewItemURL[0];
-        return { name, image, id, price, url };
+    const username = req.session.user.username;
+    const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
+    axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
+      .then(results => {
+        const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
+        const items = products.map(product => {
+          const name = product.title[0];
+          const image = product.galleryURL[0];
+          const id = product.itemId[0];
+          const price = product.sellingStatus[0].currentPrice[0].__value__;
+          const url = product.viewItemURL[0];
+          return { name, image, id, price, url };
+        });
+        res.render("pages/discover", { items, searchTerm, username });
+      })
+      .catch(error => {
+        res.send(error);
       });
-      res.render("pages/discover", { items, searchTerm });
-    })
-    .catch(error => {
-      res.send(error);
-    });
 });
 
 app.get('/watchlist', async (req, res) => {
@@ -189,8 +234,8 @@ app.post("/watchlist", async (req, res) => {
   }
   try {
     await db.query(
-      "INSERT INTO watchlist (userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-      [userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice]
+      "INSERT INTO watchlist (userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice, initialPrice, lowPrice) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+      [userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice, itemPrice, itemPrice]
     );
     res.redirect("/watchlist");
   } catch (error) {
@@ -250,7 +295,7 @@ app.get('/notifications', async (req, res) => {
       [userid]
     );
     const watchlistLow = await db.query(
-      "SELECT * FROM watchlist WHERE userid = $1  AND itemPrice = lowPrice;",
+      "SELECT * FROM watchlist WHERE userid = $1  AND itemPrice <= lowPrice AND lowPrice != initialPrice;",
       [userid]
     );
     res.render('pages/notifications', { watchlistMeet, watchlistLow });
