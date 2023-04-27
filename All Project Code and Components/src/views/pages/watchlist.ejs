@@ -9,7 +9,7 @@
     <title>My Watchlist</title>
     <style>
       body {
-        background-color: #f2f2f2;
+        background-color: white;
         font-family: Arial, sans-serif;
         font-size: 16px;
       }
@@ -171,122 +171,10 @@
 
 
  
-  </body>
+  <!-- </body> -->
 
 
 <%- include ('../partials/footer') %>
 
 
-<!-- <%- include ('../partials/header') %> 
-<%- include ('../partials/navbar') %>
-<%- include ('../partials/message') %>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>My Watchlist</title>
-    <style>
-      body {
-        background-color: #f2f2f2;
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-      }
-      h1 {
-        color: #333;
-        text-align: center;
-      }
-      table {
-        margin: 0 auto;
-        border-collapse: collapse;
-        width: 100%;
-        max-width: 800px;
-        background-color: #fff;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      }
-      th, td {
-        text-align: left;
-        padding: 10px;
-      }
-      th {
-        background-color: #333;
-        color: #fff;
-      }
-      tr:nth-child(even) {
-        background-color: #f2f2f2;
-      }
-      form {
-        display: inline-block;
-      }
-      button {
-        background-color: #333;
-        color: #fff;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-      button:hover {
-        background-color: #555;
-      }
-      .buy-btn {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-      }
-      .buy-btn:hover {
-        background-color: #3e8e41;
-      }
-    </style>
-</head>
-<body>
-  <h1>My Watchlist</h1>
-  <p>Total items: <%= watchlist.length %></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Watch Price</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% watchlist.forEach(item => { %>
-        <tr>
-          <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;"></td>
-          <td><%= item.itemname %></td>
-          <td>$<%= item.itemprice %></td>
-          <td>
-            <form method="POST" action="/watchlist/update-price">
-              <input type="hidden" name="itemId" value="<%= item.id %>">
-              <input type="number" step="0.01" name="watchPrice" value="<%= item.watchprice %>" required>
-              <button type="submit">Update</button>
-            </form>
-          </td>
-          <td>
-            <form id="deleteForm" method="POST" action="/watchlist/delete">
-              <input type="hidden" name="itemId" value="<%= item.id %>">
-              <button type="submit">Remove</button>
-            </form>
-            <a href="<%= item.itemurl %>" class="buy-btn">Buy</a>
-          </td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
-</body>
-</html>
-
-
-
-<%- include ('../partials/footer') %> -->
