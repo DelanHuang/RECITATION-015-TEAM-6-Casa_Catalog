@@ -145,6 +145,7 @@ app.get("/discover", (req, res) => {
     res.redirect("/login");
     return;
   }
+  else{res.locals.message = "Welcome to the Discover Page!"};
   const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
   axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
     .then(results => {
@@ -163,23 +164,18 @@ app.get("/discover", (req, res) => {
       res.send(error);
     });
 });
-app.get("/watchlist", async (req, res) => {
 
+app.get('/watchlist', async (req, res) => {
   const userid = req.session.userid;
   if (!userid) {
     res.locals.message = "Please log in to access these features. If you are new, please register.";
     res.redirect("/login");
     return;
   }
-  try {
-    const watchlist = await db.query(
-      "SELECT * FROM watchlist WHERE userid = $1",
-      [userid]
-    );
-    res.render("pages/watchlist", { watchlist }); // pass watchlist data as a local variable
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+
+  const watchlist = await db.query("SELECT * FROM watchlist WHERE userid = $1 ORDER BY id", [userid]);
+  res.render('pages/watchlist', { watchlist, message: req.session.message });
+  req.session.message = undefined; // clear the message
 });
 
 app.post("/watchlist", async (req, res) => {
@@ -217,6 +213,16 @@ app.post('/watchlist/delete', async (req, res) => {
 });
 
 app.post("/watchlist/update-price", async (req, res) => {
+  const userid = req.session.userid;
+  if (!userid) {
+    req.session.message = "Please log in to access these features. If you are new, please register.";
+    res.redirect("/login");
+    return;
+  }
+  else{
+    req.session.message = "Watchlist Price Updated!";
+    res.redirect('/watchlist');
+  };
   const itemId = req.body.itemId;
   const watchPrice = req.body.watchPrice;
   try {
@@ -224,7 +230,6 @@ app.post("/watchlist/update-price", async (req, res) => {
       "UPDATE watchlist SET watchprice = $1 WHERE id = $2",
       [watchPrice, itemId]
     );
-    res.redirect('/watchlist');
   } catch (error) {
     res.status(500).send(error.message);
   }

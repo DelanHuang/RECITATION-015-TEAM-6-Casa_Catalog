@@ -36,4 +36,3 @@ INSERT INTO all_products (all_product_name, all_product_category, current_price)
 INSERT INTO all_products (all_product_name, all_product_category, current_price) VALUES ('paper towels', 'home', 0.99);
 
 
-
