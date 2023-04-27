@@ -1,5 +1,6 @@
 <%- include ('../partials/header') %> 
 <%- include ('../partials/navbar') %>
+<%- include ('../partials/message') %>
 <main>
   <br>
   <form id="search-form" action="/discover" method="GET">
@@ -92,8 +93,11 @@
                 <input type="hidden" name="itemImage" value="<%= item.image %>">
                 <input type="hidden" name="itemName" value="<%= item.name %>">
                 <input type="hidden" name="itemPrice" value="<%= item.price %>">
+                <div class = "mb-3">
                 <input type="hidden" name="itemUrl" value="<%= item.url %>">
+                </div>
                 <button type="submit" class="btn btn-secondary">Add to Watchlist</button>
+                
               </form>
             </div>
           </div>
@@ -114,7 +118,6 @@
   align-items: center;
   margin-bottom: 50px;
 }
-
 /* Style the search input */
 #search-input {
   border: none;
@@ -124,7 +127,6 @@
   font-size: 16px;
   background-color: #f4f4f4;
 }
-
 /* Style the search button */
 #search-form button {
   border: none;
@@ -136,49 +138,38 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
-
 /* Hover effect for search button */
 #search-form button:hover {
   background-color:#e6a055;
 }
-
 /* Style the cards */
 .card {
   border: none;
   border-radius: 10px;
-
   transition: all 0.2s ease-in-out;
 }
-
 /* Hover effect for cards */
-
-
 /* Style the card titles */
 .card-title {
   font-size: 20px;
   font-weight: bold;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
-
 /* Style the card text */
 .card-text {
   font-size: 16px;
   margin-bottom: 10px;
 }
-
 /* Style the Buy Now button */
 .btn-primary {
   background-color:#e6a055;
   border-color: #e6a055;
 }
-
 /* Hover effect for Buy Now button */
 .btn-primary:hover {
   background-color: #e6a055;
   border-color: #e6a055;
 }
-
-
 </style>
   
   
