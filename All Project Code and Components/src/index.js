@@ -129,10 +129,44 @@ app.post('/login', async (req, res) => {
     req.session.userid = user.userid; // Set the userId property in the session object
     req.session.save();
   
+    // Updating the current and low prices for watchlist items.
+    const watchlistData = await db.query(
+      "SELECT * FROM watchlist WHERE userid = $1;", //Getting all the users watchlist items
+      [user.userid]
+    );
+    for (var i = 0; i < watchlistData.length; i++) {
+      const searchTerm = watchlistData[i].itemname;
+      //console.log(watchlistData);
+      //console.log(watchlistData[0]);
+      //console.log(watchlistData[1]);
+      console.log(i);
+      await axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
+      .then(results => {
+        const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
+        const items = products.map(product => {
+          const name = product.title[0];
+          const image = product.galleryURL[0];
+          const id = product.itemId[0];
+          const price = product.sellingStatus[0].currentPrice[0].__value__;
+          const url = product.viewItemURL[0];
+          return { name, image, id, price, url };
+        });
+        console.log("AAAAAAAAAAAAAAA");
+        if (items) {
+          for(var j = 0; j < items.length; j++) {
+            if (items[j].id = watchlistData[i].productid) {
+              console.log(items[j]);
+              break;
+            }
+          }
+        }
+      })
+    }
 
     res.redirect('/discover');
   } catch (error) {
     // Send an appropriate error message to the user and render the login page
+    console.log(error);
     res.locals.message = "Incorrect username or password.";
     res.status(401).render('pages/login', { error: error.message, message: "Incorrect username or password" });
   }
@@ -210,8 +244,8 @@ app.post("/watchlist", async (req, res) => {
   }
   try {
     await db.query(
-      "INSERT INTO watchlist (userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-      [userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice]
+      "INSERT INTO watchlist (userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice, initialPrice, lowPrice) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+      [userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice, itemPrice, itemPrice]
     );
     res.redirect("/watchlist");
   } catch (error) {
@@ -260,7 +294,7 @@ app.get('/notifications', async (req, res) => {
       [userid]
     );
     const watchlistLow = await db.query(
-      "SELECT * FROM watchlist WHERE userid = $1  AND itemPrice = lowPrice;",
+      "SELECT * FROM watchlist WHERE userid = $1  AND itemPrice <= lowPrice AND lowPrice != initialPrice;",
       [userid]
     );
     res.render('pages/notifications', { watchlistMeet, watchlistLow });
