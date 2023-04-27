@@ -135,27 +135,37 @@ app.post('/login', async (req, res) => {
       [user.userid]
     );
     for (var i = 0; i < watchlistData.length; i++) {
-      const searchTerm = watchlistData[i].itemname;
-      //console.log(watchlistData);
-      //console.log(watchlistData[0]);
-      //console.log(watchlistData[1]);
-      console.log(i);
+      const searchTerm = watchlistData[i].itemname; //Searching for products matching item name
+      //console.log(i);
       await axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
-      .then(results => {
+      .then( async (results) => {
         const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
-        const items = products.map(product => {
+        const items = products.map(product => { //Getting product data
           const name = product.title[0];
-          const image = product.galleryURL[0];
           const id = product.itemId[0];
           const price = product.sellingStatus[0].currentPrice[0].__value__;
-          const url = product.viewItemURL[0];
-          return { name, image, id, price, url };
+          return { name, id, price };
         });
-        console.log("AAAAAAAAAAAAAAA");
         if (items) {
-          for(var j = 0; j < items.length; j++) {
-            if (items[j].id = watchlistData[i].productid) {
-              console.log(items[j]);
+          for(var j = 0; j < items.length; j++) { //Looping through results
+            if (items[j].id = watchlistData[i].productid) { //Finding the product that matches product ids (almost always the first result but good to check)
+              //console.log(items[j]);
+              if (parseFloat(items[j].price) != parseFloat(watchlistData[i].itemprice)) { //Finding if price and lowprice need to be updated
+                if (parseFloat(items[j].price) < parseFloat(watchlistData[i].lowprice)) {
+                  console.log(`NEW LOW PRICE FOR ITEM '${i}'. Current Price: '${items[j].price}', Previous Low Price: '${watchlistData[i].lowprice}'`)
+                  //Update current and low price
+                  const updateLow = await db.query(
+                    "UPDATE watchlist SET itemprice = $1, lowprice = $1 WHERE userid = $2 AND productid = $3;",
+                    [items[j].price, user.userid, watchlistData[i].productid]
+                  );
+                } else {
+                  //Update current price
+                  const updatePrice = await db.query(
+                    "UPDATE watchlist SET itemprice = $1 WHERE userid = $2 AND productid = $3;",
+                    [items[j].price, user.userid, watchlistData[i].productid]
+                  );
+                }
+              }
               break;
             }
           }
@@ -163,10 +173,10 @@ app.post('/login', async (req, res) => {
       })
     }
 
+    //Sending the user to the discover page
     res.redirect('/discover');
   } catch (error) {
     // Send an appropriate error message to the user and render the login page
-    console.log(error);
     res.locals.message = "Incorrect username or password.";
     res.status(401).render('pages/login', { error: error.message, message: "Incorrect username or password" });
   }
@@ -193,6 +203,7 @@ app.post('/login', async (req, res) => {
 // });
 app.get("/discover", (req, res) => {
   const userid = req.session.userid;
+  const username = req.session.user.username;
   if (!userid) {
     res.locals.message = "Please log in to access these features. If you are new, please register.";
     res.redirect("/login");
@@ -210,7 +221,7 @@ app.get("/discover", (req, res) => {
         const url = product.viewItemURL[0];
         return { name, image, id, price, url };
       });
-      res.render("pages/discover", { items, searchTerm });
+      res.render("pages/discover", { items, searchTerm, username });
     })
     .catch(error => {
       res.send(error);
