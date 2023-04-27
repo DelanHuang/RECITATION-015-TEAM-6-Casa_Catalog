@@ -153,7 +153,7 @@ app.post('/login', async (req, res) => {
               //console.log(items[j]);
               if (parseFloat(items[j].price) != parseFloat(watchlistData[i].itemprice)) { //Finding if price and lowprice need to be updated
                 if (parseFloat(items[j].price) < parseFloat(watchlistData[i].lowprice)) {
-                  console.log(`NEW LOW PRICE FOR ITEM '${i}'. Current Price: '${items[j].price}', Previous Low Price: '${watchlistData[i].lowprice}'`)
+                  //console.log(`NEW LOW PRICE FOR ITEM '${i}'. Current Price: '${items[j].price}', Previous Low Price: '${watchlistData[i].lowprice}'`)
                   //Update current and low price
                   const updateLow = await db.query(
                     "UPDATE watchlist SET itemprice = $1, lowprice = $1 WHERE userid = $2 AND productid = $3;",
@@ -185,30 +185,30 @@ app.post('/login', async (req, res) => {
 
 app.get("/discover", (req, res) => {
   const userid = req.session.userid;
-  const username = req.session.user.username;
   if (!userid) {
     res.locals.message = "Please log in to access these features. If you are new, please register.";
     res.redirect("/login");
     return;
   }
   else{res.locals.message = "Welcome to the Discover Page!"};
-  const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
-  axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
-    .then(results => {
-      const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
-      const items = products.map(product => {
-        const name = product.title[0];
-        const image = product.galleryURL[0];
-        const id = product.itemId[0];
-        const price = product.sellingStatus[0].currentPrice[0].__value__;
-        const url = product.viewItemURL[0];
-        return { name, image, id, price, url };
+    const username = req.session.user.username;
+    const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
+    axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
+      .then(results => {
+        const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
+        const items = products.map(product => {
+          const name = product.title[0];
+          const image = product.galleryURL[0];
+          const id = product.itemId[0];
+          const price = product.sellingStatus[0].currentPrice[0].__value__;
+          const url = product.viewItemURL[0];
+          return { name, image, id, price, url };
+        });
+        res.render("pages/discover", { items, searchTerm, username });
+      })
+      .catch(error => {
+        res.send(error);
       });
-      res.render("pages/discover", { items, searchTerm, username });
-    })
-    .catch(error => {
-      res.send(error);
-    });
 });
 
 app.get('/watchlist', async (req, res) => {
