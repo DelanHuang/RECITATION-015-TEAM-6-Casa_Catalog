@@ -16,6 +16,10 @@
       h1 {
         color: #333;
         text-align: center;
+        
+      }
+      h2{
+        font-family: 'Calibri'
       }
       table {
         margin: 0 auto;
@@ -28,10 +32,11 @@
       th, td {
         text-align: left;
         padding: 10px;
+        color: #5e6282
       }
       th {
         background-color: #333;
-        color: #fff;
+        color: #4d5969;
       }
       tr:nth-child(even) {
         background-color: #f2f2f2;
@@ -66,23 +71,22 @@
       .buy-btn:hover {
         background-color: #3e8e41;
       }
+      input {
+        border-color: #dee2e6
+      }
     </style>
-</head>
-<body>
-  <h1>My Watchlist</h1>
-  <p>Total items: <%= watchlist.length %></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Watch Price</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% watchlist.forEach(item => { %>
+    </head>
+    <script>
+      function showAlert() {
+        alert("Watch price updated!");
+      }
+    </script>
+    <body>
+      <!-- <h1>My Watchlist</h1>
+
+    <p>Total items: <%= watchlist.length %></p>
+    <table>
+      <thead>
         <tr>
           <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;"></td>
           <td><%= item.itemname %></td>
@@ -102,12 +106,120 @@
             <a href="<%= item.itemurl %>" class="buy-btn">Buy</a>
           </td>
         </tr>
-      <% }); %>
-    </tbody>
-  </table>
-</body>
-</html>
+      </thead>
+      <tbody>
+        <% watchlist.forEach(item => { %>
+          <tr>
+            <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;"></td>
+            <td><%= item.itemname %></td>
+            <td>$<%= item.itemprice %></td>
+            <td>
+              <form id="deleteForm" method="POST" action="/watchlist/delete">
+                <input type="hidden" name="itemId" value="<%= item.id %>">
+                <button type="submit">Remove</button>
+              </form>
+              <a href="<%= item.itemurl %>" class="buy-btn">Buy</a>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table> -->
 
+    <div class="container" style="padding: 50px; background-color: seashell; width: 80%">
+
+        <div class="row">
+            <div class="col-xl-8 col-xxl-9">
+
+       
+                <div class="card border-0 card-h-100">
+                    <div class="card-header border-0 card-header-space-between">
+                        
+                       
+                        <h2 class="card-header-title h4 text-uppercase">
+                            WatchList
+                        </h2>
+               
+                    </div>
+
+                   
+                    <div class="table-responsive">
+                        <table id="projectsTable" class="table align-middle table-edge table-nowrap mb-0">
+                            <thead class="thead-light">
+                               <tr>                   
+                                    <th>Product name</th>
+                                    <th>Price</th>
+                                    <th>Watch Price</th>
+                                    <th>Action </th>
+                               
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <% watchlist.forEach(item => { %>
+                                <tr>
+                                  <td>
+                                    <span class="avatar-sm me-2">
+                                    <img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;">
+                                    </span>
+                                    <%= item.itemname %>
+                                  </td>
+                               
+                                  <td>$<%= item.itemprice %></td>
+                                  <td>
+                                    <form method="POST" action="/watchlist/update-price" onsubmit="showAlert()">
+                                      <input type="hidden" name="itemId" value="<%= item.id %>">
+                                      <!-- <input type="number" step="0.01" name="watchPrice" value="<%= item.watchprice %>" required> -->
+                                      <div class = "mb-3">
+                                      <input type="number" class="form-control" step = "0.01"  placeholder="watchPrice" aria-describedby="basic-addon1" value="<%= item.watchprice %>" required>
+                                        </div>
+                                      <button type="submit" class="btn btn-secondary btn-sm" style="background-color: #e6a055; border-color :#e6a055";>Update</button>
+                                    </form>
+                                  </td>
+                                  <td>
+                                    <form id="deleteForm" method="POST" action="/watchlist/delete">
+                                      <input type="hidden" name="itemId" value="<%= item.id %>">
+                                      <button type="submit"  class="btn btn-secondary btn-sm">Remove</button>
+                                    </form>
+                                    <a href="<%= item.itemurl %>" class="buy-btn">Buy</a>
+                                  </td>
+                                </tr>
+                              <% }); %>
+                            </tbody>
+                 
+                        </table>
+                    </div> 
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-xxl-3">
+                
+                
+                <div class="card border-0 card-h-100">
+                    <div class="card-header border-0 card-header-space-between">
+                        
+                        
+                        <h2 class="card-header-title h4 text-uppercase">
+                            Total Items: 
+                        </h2>
+                        
+       
+                    </div>
+
+                    <div class="card-body text-center d-flex flex-column align-items-center">
+
+                      <h2 class="mb-0 mt-auto display-4">
+                        <%= watchlist.length %>
+                      </h2>                     
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+    </div>
+           
+
+
+ 
+  </body>
 
 
 <%- include ('../partials/footer') %>
