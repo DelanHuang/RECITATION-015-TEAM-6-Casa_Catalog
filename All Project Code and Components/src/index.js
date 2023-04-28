@@ -35,6 +35,7 @@ db.connect()
 
 app.set('view engine', 'ejs'); // set the view engine to EJS
 app.use(bodyParser.json()); // specify the usage of JSON for parsing request body.
+app.use(express.static('resources'))
 
 // initialize session variables
 app.use(
@@ -53,9 +54,10 @@ app.use(
 // Creating the user variable
 
 const user = {
-    username: undefined,
-    password: undefined,
-  };
+  userid: undefined,
+  username: undefined,
+  password: undefined,
+};
 
 // Allow the use of static files, such as images. 
 // An image path will be defined as img/<FILENAME>
@@ -87,7 +89,6 @@ app.get('/register', (req, res) => {
   res.render('pages/register');
 });
 
-    
 app.post('/register', async (req, res) => {
   const username = req.body.input_username;
   const password = req.body.input_password;
@@ -106,6 +107,7 @@ app.post('/register', async (req, res) => {
     res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
   }
 });
+
 app.post('/login', async (req, res) => {
   const username = req.body.input_username;
   const password = req.body.input_password;
@@ -128,7 +130,51 @@ app.post('/login', async (req, res) => {
     req.session.userid = user.userid; // Set the userId property in the session object
     req.session.save();
   
+    // Updating the current and low prices for watchlist items.
+    const watchlistData = await db.query(
+      "SELECT * FROM watchlist WHERE userid = $1;", //Getting all the users watchlist items
+      [user.userid]
+    );
+    for (var i = 0; i < watchlistData.length; i++) {
+      const searchTerm = watchlistData[i].itemname; //Searching for products matching item name
+      //console.log(i);
+      await axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
+      .then( async (results) => {
+        const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
+        const items = products.map(product => { //Getting product data
+          const name = product.title[0];
+          const id = product.itemId[0];
+          const price = product.sellingStatus[0].currentPrice[0].__value__;
+          return { name, id, price };
+        });
+        if (items) {
+          for(var j = 0; j < items.length; j++) { //Looping through results
+            if (items[j].id = watchlistData[i].productid) { //Finding the product that matches product ids (almost always the first result but good to check)
+              //console.log(items[j]);
+              if (parseFloat(items[j].price) != parseFloat(watchlistData[i].itemprice)) { //Finding if price and lowprice need to be updated
+                if (parseFloat(items[j].price) < parseFloat(watchlistData[i].lowprice)) {
+                  //console.log(`NEW LOW PRICE FOR ITEM '${i}'. Current Price: '${items[j].price}', Previous Low Price: '${watchlistData[i].lowprice}'`)
+                  //Update current and low price
+                  const updateLow = await db.query(
+                    "UPDATE watchlist SET itemprice = $1, lowprice = $1 WHERE userid = $2 AND productid = $3;",
+                    [items[j].price, user.userid, watchlistData[i].productid]
+                  );
+                } else {
+                  //Update current price
+                  const updatePrice = await db.query(
+                    "UPDATE watchlist SET itemprice = $1 WHERE userid = $2 AND productid = $3;",
+                    [items[j].price, user.userid, watchlistData[i].productid]
+                  );
+                }
+              }
+              break;
+            }
+          }
+        }
+      })
+    }
 
+    //Sending the user to the discover page
     res.redirect('/discover');
   } catch (error) {
     // Send an appropriate error message to the user and render the login page
@@ -138,42 +184,45 @@ app.post('/login', async (req, res) => {
 });
 
 app.get("/discover", (req, res) => {
-  const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
-  axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
-    .then(results => {
-      const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
-      const items = products.map(product => {
-        const name = product.title[0];
-        const image = product.galleryURL[0];
-        const id = product.itemId[0];
-        const price = product.sellingStatus[0].currentPrice[0].__value__;
-        const url = product.viewItemURL[0];
-        return { name, image, id, price, url };
-      });
-      res.render("pages/discover", { items });
-    })
-    .catch(error => {
-      res.send(error);
-    });
-});
-
-app.get("/watchlist", async (req, res) => {
   const userid = req.session.userid;
   if (!userid) {
+    res.locals.message = "Please log in to access these features. If you are new, please register.";
     res.redirect("/login");
     return;
   }
-  try {
-    const watchlist = await db.query(
-      "SELECT * FROM watchlist WHERE userid = $1",
-      [userid]
-    );
-    res.render("pages/watchlist", { watchlist }); // pass watchlist data as a local variable
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+  else{res.locals.message = "Welcome to the Discover Page!"};
+    const username = req.session.user.username;
+    const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
+    axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
+      .then(results => {
+        const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
+        const items = products.map(product => {
+          const name = product.title[0];
+          const image = product.galleryURL[0];
+          const id = product.itemId[0];
+          const price = product.sellingStatus[0].currentPrice[0].__value__;
+          const url = product.viewItemURL[0];
+          return { name, image, id, price, url };
+        });
+        res.render("pages/discover", { items, searchTerm, username });
+      })
+      .catch(error => {
+        res.send(error);
+      });
 });
 
+app.get('/watchlist', async (req, res) => {
+  const userid = req.session.userid;
+  if (!userid) {
+    res.locals.message = "Please log in to access these features. If you are new, please register.";
+    res.redirect("/login");
+    return;
+  }
+
+  const watchlist = await db.query("SELECT * FROM watchlist WHERE userid = $1 ORDER BY id", [userid]);
+  res.render('pages/watchlist', { watchlist, message: req.session.message });
+  req.session.message = undefined; // clear the message
+});
 
 app.post("/watchlist", async (req, res) => {
   const userid = req.session.userid;
@@ -185,8 +234,8 @@ app.post("/watchlist", async (req, res) => {
   }
   try {
     await db.query(
-      "INSERT INTO watchlist (userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-      [userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice]
+      "INSERT INTO watchlist (userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice, initialPrice, lowPrice) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+      [userid, productId, itemImage, itemName, itemPrice, itemUrl, watchPrice, itemPrice, itemPrice]
     );
     res.redirect("/watchlist");
   } catch (error) {
@@ -201,6 +250,7 @@ app.post('/watchlist/delete', async (req, res) => {
   try {
     const result = await db.query(sql);
     console.log(`Item with ID ${itemId} removed from watchlist.`);
+    res.locals.message = 'Removed item from Watch List';
     res.redirect('/watchlist');
   } catch (err) {
     console.error(err);
@@ -209,6 +259,16 @@ app.post('/watchlist/delete', async (req, res) => {
 });
 
 app.post("/watchlist/update-price", async (req, res) => {
+  const userid = req.session.userid;
+  if (!userid) {
+    req.session.message = "Please log in to access these features. If you are new, please register.";
+    res.redirect("/login");
+    return;
+  }
+  else{
+    req.session.message = "Watchlist Price Updated!";
+    res.redirect('/watchlist');
+  };
   const itemId = req.body.itemId;
   const watchPrice = req.body.watchPrice;
   try {
@@ -216,12 +276,49 @@ app.post("/watchlist/update-price", async (req, res) => {
       "UPDATE watchlist SET watchprice = $1 WHERE id = $2",
       [watchPrice, itemId]
     );
-    res.redirect("/watchlist");
   } catch (error) {
     res.status(500).send(error.message);
   }
 });
 
+
+app.get('/notifications', async (req, res) => {
+  const userid = req.session.userid;
+  if (!userid) {
+    res.locals.message = "Please log in to access these features. If you are new, please register.";
+    res.redirect("/login");
+    return;
+  }
+  try{
+    const watchlistMeet = await db.query(
+      "SELECT * FROM watchlist WHERE userid = $1 AND itemPrice < watchPrice;",
+      [userid]
+    );
+    const watchlistLow = await db.query(
+      "SELECT * FROM watchlist WHERE userid = $1  AND itemPrice <= lowPrice AND lowPrice != initialPrice;",
+      [userid]
+    );
+    res.render('pages/notifications', { watchlistMeet, watchlistLow });
+  } catch (err) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.get ("/logout", (req, res) => {
+  if (!req.session.userid) {
+    res.locals.message = 'You were not logged in.'; // If the user was not logged in, this message will display
+  } else {
+    res.locals.message = 'Logged out Successfully.'; // Otherwise they have logged out successfully
+  }
+
+  user.username = undefined;
+  user.password = undefined;
+  user.userid = undefined; // Resetting the session variable
+  req.session.userid = undefined;
+  req.session.save();
+  
+  res.render("pages/login"); // Redirection the user to the login page
+});
 
 //Test route for lab 11
 app.get('/welcome', (req, res) => {

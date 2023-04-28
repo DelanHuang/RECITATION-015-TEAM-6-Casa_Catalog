@@ -1,5 +1,6 @@
 <%- include ('../partials/header') %> 
 <%- include ('../partials/navbar') %>
+<%- include ('../partials/message') %>
 <main>
   <br>
   <form id="search-form" action="/discover" method="GET">
@@ -8,11 +9,69 @@
     #e6a055
     ;">Search</button>
   </form>
-  <div class="container" style="padding: 50px; background-color: seashell; width: 80%" >
-   
-
-
-
+  <div class="container" style="padding: 50px; background-color: seashell; width: 80%">
+    <div class="row">
+      <div class="col-12 col-xl-4">
+        <!-- Projects -->
+        <div class = "container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:30px">
+        <div class="card card-fill" >
+          <div class="card-header" >
+            <!-- Title -->
+            <h4 class="card-header-title" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:gray">
+              Current Item
+            </h4>
+          </div>
+          <div class="card-body">
+            <!-- List group -->
+            <div class="list-group list-group-flush my-n3">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col ms-n2">
+                    <!-- Title -->
+                    <h4 class="mb-1">
+                      <div class="text-gray-500 flex-grow-1 me-4">Product Name</div>
+                      <div class="fw-bolder text-gray-700 text-xxl-end"><%= searchTerm %></div>
+                    </h4>
+                  </div>
+                </div> <!-- / .row -->
+              </div>
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col ms-n2">
+                    <!-- Title -->
+                    <h4 class="mb-1">
+                      <p>Last Purchase</p>
+                    </h4>
+                  </div>             
+                </div> <!-- / .row -->
+              </div>
+              <div class="list-group-item">
+                <div class="row align-items-center">   
+                  <div class="col ms-n2">
+                    <!-- Title -->
+                    <h4 class="mb-1">
+                      <p>Expected Price</p>
+                    </h4>                
+                  </div>
+                </div> <!-- / .row -->
+              </div>
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col ms-n2">
+                    <!-- Title -->
+                    <h4 class="mb-1">
+                      <div class="text-gray-500 flex-grow-1 me-4">Purchaser</div>
+                      <div class="fw-bolder text-gray-700 text-xxl-end"><%= username %></div>
+                    </h4>                
+                  </div>        
+                </div> <!-- / .row -->
+              </div>
+            </div>
+          </div> <!-- / .card-body -->
+        </div> <!-- / .card -->
+      </div>
+</div>
+      <div class="col-12 col-xl-8">   
         <div class = "container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:30px">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
@@ -23,15 +82,23 @@
             <div class="card-body">
               <div class="card-header"><%= item.name %></div>
               <div class="d-flex fw-semibold align-items-center">
-      
                 <!--begin::Label-->
                 <div class="text-gray-500 flex-grow-1 me-4">Price</div>
                 <!--end::Label-->
-
                 <div class="fw-bolder text-gray-700 text-xxl-end">$<%= item.price %></div>
             </div>
-             
               <a href="<%= item.url %>" class="btn btn-primary" target="_blank">Buy Now</a>
+              <form action="/watchlist" method="POST">
+                <input type="hidden" name="productId" value="<%= item.id %>">
+                <input type="hidden" name="itemImage" value="<%= item.image %>">
+                <input type="hidden" name="itemName" value="<%= item.name %>">
+                <input type="hidden" name="itemPrice" value="<%= item.price %>">
+                <div class = "mb-3">
+                <input type="hidden" name="itemUrl" value="<%= item.url %>">
+                </div>
+                <button type="submit" class="btn btn-secondary">Add to Watchlist</button>
+                
+              </form>
             </div>
           </div>
         </div>
@@ -42,7 +109,6 @@
 </div>
   </main>
 <style>
-
 /* Center the search form */
 #search-form {
   display: flex;
@@ -50,7 +116,6 @@
   align-items: center;
   margin-bottom: 50px;
 }
-
 /* Style the search input */
 #search-input {
   border: none;
@@ -60,7 +125,6 @@
   font-size: 16px;
   background-color: #f4f4f4;
 }
-
 /* Style the search button */
 #search-form button {
   border: none;
@@ -72,49 +136,38 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
-
 /* Hover effect for search button */
 #search-form button:hover {
   background-color:#e6a055;
 }
-
 /* Style the cards */
 .card {
   border: none;
   border-radius: 10px;
-
   transition: all 0.2s ease-in-out;
 }
-
 /* Hover effect for cards */
-
-
 /* Style the card titles */
 .card-title {
   font-size: 20px;
   font-weight: bold;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
-
 /* Style the card text */
 .card-text {
   font-size: 16px;
   margin-bottom: 10px;
 }
-
 /* Style the Buy Now button */
 .btn-primary {
   background-color:#e6a055;
   border-color: #e6a055;
 }
-
 /* Hover effect for Buy Now button */
 .btn-primary:hover {
   background-color: #e6a055;
   border-color: #e6a055;
 }
-
-
 </style>
   
   
