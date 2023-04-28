@@ -6,8 +6,9 @@
   <form id="search-form" action="/discover" method="GET">
     <input type="text" id="search-input" name="q" placeholder="Search for items">
     <button type="submit" style="background-color: 
-    #e6a055
-    ;">Search</button>
+    #e6a055;">
+      Search
+    </button>
   </form>
   <div class="container" style="padding: 50px; background-color: seashell; width: 80%">
     <div class="row">
@@ -60,7 +61,7 @@
                   <div class="col ms-n2">
                     <!-- Title -->
                     <h4 class="mb-1">
-                      <div class="text-gray-500 flex-grow-1 me-4">Purchaser</div>
+                      <div class="text-gray-500 flex-grow-1 me-4">Current User</div>
                       <div class="fw-bolder text-gray-700 text-xxl-end"><%= username %></div>
                     </h4>                
                   </div>        
@@ -78,7 +79,7 @@
        <% items.forEach(item => { %>
         <div class="col-md-4">
           <div class="card mb-4 box-shadow">
-            <img class="card-img-top" src="<%= item.image %>" alt="Card image cap" style="max-width: 100%;">
+            <img class="card-img-top" src="<%= item.image %>" alt="Thumbnail not found on Ebay" style="max-width: 100%;">
             <div class="card-body">
               <div class="card-header"><%= item.name %></div>
               <div class="d-flex fw-semibold align-items-center">

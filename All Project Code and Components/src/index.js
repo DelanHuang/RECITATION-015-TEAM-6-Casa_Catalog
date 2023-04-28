@@ -78,15 +78,21 @@ app.get('/', (req, res) => {
 });
 
 app.get('/home', (req, res) => {
-  res.render('pages/home');
+  res.render('pages/home', {
+    cookie: req.session.userid
+  });
 });
   
 app.get('/login', (req, res) => {
-  res.render('pages/login');
+  res.render('pages/login', {
+    cookie: req.session.userid
+  });
 });
   
 app.get('/register', (req, res) => {
-  res.render('pages/register');
+  res.render('pages/register', {
+    cookie: req.session.userid
+  });
 });
 
 app.post('/register', async (req, res) => {
@@ -204,7 +210,7 @@ app.get("/discover", (req, res) => {
           const url = product.viewItemURL[0];
           return { name, image, id, price, url };
         });
-        res.render("pages/discover", { items, searchTerm, username });
+        res.render("pages/discover", { items, searchTerm, username, cookie: req.session.userid });
       })
       .catch(error => {
         res.send(error);
@@ -220,7 +226,7 @@ app.get('/watchlist', async (req, res) => {
   }
 
   const watchlist = await db.query("SELECT * FROM watchlist WHERE userid = $1 ORDER BY id", [userid]);
-  res.render('pages/watchlist', { watchlist, message: req.session.message });
+  res.render('pages/watchlist', { watchlist, message: req.session.message, cookie: req.session.userid });
   req.session.message = undefined; // clear the message
 });
 
@@ -298,7 +304,7 @@ app.get('/notifications', async (req, res) => {
       "SELECT * FROM watchlist WHERE userid = $1  AND itemPrice <= lowPrice AND lowPrice != initialPrice;",
       [userid]
     );
-    res.render('pages/notifications', { watchlistMeet, watchlistLow });
+    res.render('pages/notifications', { watchlistMeet, watchlistLow, cookie: req.session.userid });
   } catch (err) {
     res.status(500).send(error.message);
   }
@@ -317,7 +323,7 @@ app.get ("/logout", (req, res) => {
   req.session.userid = undefined;
   req.session.save();
   
-  res.render("pages/login"); // Redirection the user to the login page
+  res.render("pages/login", {cookie: req.session.userid}); // Redirection the user to the login page
 });
 
 //Test route for lab 11
