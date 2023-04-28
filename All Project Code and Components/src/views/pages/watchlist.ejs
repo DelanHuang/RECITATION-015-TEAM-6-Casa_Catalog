@@ -97,7 +97,8 @@
                     <div class="table-responsive">
                         <table id="projectsTable" class="table align-middle table-edge table-nowrap mb-0">
                             <thead class="thead-light">
-                               <tr>                   
+                               <tr>             
+                                    <th>Image</th>                                      
                                     <th>Product name</th>
                                     <th>Price</th>
                                     <th>Watch Price</th>
@@ -111,7 +112,9 @@
                                   <td>
                                     <span class="avatar-sm me-2">
                                     <img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;">
-                                    </span>
+                                    </span>   
+                                    </td>
+                                    <td>                
                                     <%= item.itemname %>
                                   </td>
                                
