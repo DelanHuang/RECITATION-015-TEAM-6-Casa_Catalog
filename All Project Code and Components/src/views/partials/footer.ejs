@@ -1,4 +1,4 @@
-    <footer class="py-3 my-4" style="background-color: white;">
+    <footer id="page_footer" class="py-3 my-4" style="background-color: white;">
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">
         <li class="ms-3">
           <a class="text-muted" href="https://github.com/DelanHuang/RECITATION-015-TEAM-6-Casa_Catalog">
@@ -27,6 +27,19 @@
       <p class="text-center text-muted">© Bargain Hunters</p>
     </footer>
   <!-- </div> -->
+
+  <script>
+    var pageBody = document.getElementById('page_body');
+    var pageHeight = pageBody.clientHeight;
+    var screenHeight = screen.height;
+    var foot = document.getElementById("page_footer");
+    var footHeight = foot.clientHeight;
+    if (screenHeight > (pageHeight + footHeight)) {
+      foot.style.position = 'absolute';
+      foot.style.bottom = '0';
+      foot.style.width = '100%';
+    }
+  </script>
   
   <script 
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" 
