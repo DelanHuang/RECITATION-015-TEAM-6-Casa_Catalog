@@ -1,4 +1,4 @@
-<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom" style="background-color: rgb(255, 198, 157);">
+<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom sticky-top" style="background-color: rgb(255, 198, 157);">
   <a
     href="/home"
     class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-light text-decoration-none"
@@ -10,66 +10,112 @@
       width="40px" 
       height="32px">  
     </svg>
-    <span class="fs-4" id="nav-title">&nbsp;Casa Catalog</span>
+    <span class="fs-4" id="nav-title" style="font-family: 'Segoe UI';">&nbsp;Casa Catalog</span>
   </a>
 
+
   <ul class="nav nav-pills">
+    
     <li class="nav-item">
       <a href="/home" 
       class="nav-link link-light" 
       id="nav-home"
+      style="font-family: 'Segoe UI';"
       >
         Home
       </a>
     </li>
+    
+
+    <!-- Cookie is the req.session.userid which shows if the user is logged in or not. Passed from index.js routes -->
+    <% if (cookie) { %>
     <li class="nav-item">
       <a href="/discover" 
       class="nav-link link-light" 
       id="nav-discover"
+      style="font-family: 'Segoe UI';"
       >
         Discover
+        
       </a>
     </li>
+    <% } %>
+
+    <% if (cookie) { %>
     <li class="nav-item">
       <a href="/watchlist" 
       class="nav-link link-light" 
       id="nav-watch"
+      style="font-family: 'Segoe UI';"
       >
         Watchlist
       </a>
     </li>
+    <% } %>
+
+    <% if (cookie) { %>
     <li class="nav-item">
       <a href="/notifications" 
       class="nav-link link-light" 
       id="nav-notif"
+      style="font-family: 'Segoe UI';"
       >
         Notifications
       </a>
     </li>
+    <% } %>
+
+
+    <% if (!cookie) { %>
     <li class="nav-item" style="padding-right: 8px;">
       <a href="/register" 
       class="btn btn-primary" 
       id="nav-register"
+      style="font-family: 'Segoe UI'; background-color: #0D6EFD;"
       >
         Register
       </a>
     </li>
+    <% } %>
+
+    <% if (!cookie) { %>
     <li class="nav-item" style="padding-right: 8px;">
       <a href="/login" 
       class="btn btn-success" 
       id="nav-login"
+      style="font-family: 'Segoe UI';"
       >
         Login
       </a>
     </li>
+    <% } %>
+
+    <% if (cookie) { %>
     <li class="nav-item" style="padding-right: 8px;">
       <a href="/logout" 
       class="btn btn-danger" 
       id="nav-logout"
+      style="font-family: 'Segoe UI';"
       >
         Logout
       </a>
     </li>
+    <% } %>
+  
   </ul>
+
+  <!-- Overriding a style rule elsewhere to make this button consistent accross all pages -->
+  <style>
+    
+    #nav-register {
+      border-color: #007bff !important;
+      background-color: #007bff !important;
+    }
+
+    #nav-register:hover {
+      border-color: #0062cc !important;
+      background-color: #0069d9 !important;
+    }
+  </style>
 
 </header>
