@@ -7,65 +7,122 @@
     </h1>
 </div>
 
+<br>
+
 <div id="notifications_body">
+
     <div class="row" style="width: 90%; margin-left: auto; margin-right: auto;">
-        <div class="col-sm">
-            <div class="card text-center">
-                <div class="card-body">
+        
+        <div class="col-sm" id="fair_price_body" style="padding-top: 12px; padding-bottom: 12px; background-color: #FFF5EE;">
+            
+            <div class="card card-fill text-center">
+            
+                <div class="card-body" style="background-color: #FFFFFF; width: auto;">
                     <h5 class="card-title">Items That Meet Your Price</h5>
                     <p class="card-text">If an item meets the price you listed as fair, it will be displayed here.</p>
-                    <table id="price_met_table" style="width: fit-content; margin-left: auto; margin-right: auto;">
-                        <tr>
+                    
+                    <table id="price_met_table" class="table table-striped" style="width: 100%; margin-left: auto; margin-right: auto;">
+                        <tr style="background-color: #fff3ee !important;">
                             <th style="width: 15%;">Image</th>
                             <th style="width: 35%;">Item Name</th>
                             <th style="width: 20%;">Current Price</th>
                             <th style="width: 20%;">Your Price</th>
                             <th style="width: 10%;">Buy Now</th>
                         </tr>
+                        
                         <% watchlistMeet.forEach(item => { %>
-                            <tr>
-                                <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;"></td>
+                            <tr style="background-color: white;">
+                                <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="width: 100px; height: 100px;"></td>
                                 <td><%= item.itemname %></td>
-                                <td><%= item.itemprice %></td>
-                                <td><%= item.watchprice %></td>
+                                <td>$<%= item.itemprice %></td>
+                                <td>$<%= item.watchprice %></td>
                                 <td>
-                                    <a href="<%= item.itemurl %>" class="btn btn-primary" target="_blank">Buy</a>
+                                    <a href="<%= item.itemurl %>" class="btn btn-primary btn-md" target="_blank">Buy</a>
                                 </td>
                             </tr>
+                        
                         <% }); %>
                     </table>
+                
                 </div>
+            
             </div>
+        
         </div>
-        <div class="col-sm">
-            <div class="card text-center">
-                <div class="card-body">
+        
+        <div class="col-sm" id="lowest_price_body" style="padding-top: 12px; padding-bottom: 12px; background-color: #FFF5EE;">
+            
+            <div class="card card-fill text-center">
+            
+                <div class="card-body" style="background-color: #FFFFFF; width: auto;">
                     <h5 class="card-title">Items At An All Time Low Price</h5>
-                    <p class="card-text">These items are at the lowest point we have recorded. Might be a good deal.</p>
-                    <table id="low_price_table"  style="width: fit-content; margin-left: auto; margin-right: auto;">
-                        <tr>
+                    <p class="card-text">These items are at the lowest point we have recorded. This might be a great deal!</p>
+            
+                    <table id="low_price_table" class="table table-striped" style="width: 100%; margin-left: auto; margin-right: auto;">
+                        <tr style="background-color: #fff3ee !important;">
                             <th style="width: 15%;">Image</th>
                             <th style="width: 35%;">Item Name</th>
                             <th style="width: 20%;">Current Low Price</th>
                             <th style="width: 20%;">Initial Price</th>
                             <th style="width: 10%;">Buy Now</th>
                         </tr>
+            
                         <% watchlistLow.forEach(item => { %>
-                            <tr>
-                                <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="max-width: 100px;"></td>
+                            <tr style="background-color: white;">
+                                <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="width: 100px; height: 100px;"></td>
                                 <td><%= item.itemname %></td>
-                                <td><%= item.itemprice %></td>
-                                <td><%= item.initialprice %></td>
+                                <td>$<%= item.itemprice %></td>
+                                <td>$<%= item.initialprice %></td>
                                 <td>
-                                    <a href="<%= item.itemurl %>" class="btn btn-primary" target="_blank">Buy</a>
+                                    <a href="<%= item.itemurl %>" class="btn btn-primary btn-md" target="_blank">Buy</a>
                                 </td>
                             </tr>
                         <% }); %>
+            
                     </table>
+            
                 </div>
+            
             </div>
+        
         </div>
     </div>
 </div>
+
+
+<style>
+
+th 
+{
+    font-family: 'Celebri Sans';
+}
+
+tr 
+{
+    background-color: white;
+}
+
+td
+{
+    max-height: 100px;
+}
+
+h1 
+{
+    font-family: 'Celebri Sans';
+}
+
+h5 
+{
+    font-family: 'Celebri Sans';
+    font-weight: 600;
+}
+
+p 
+{
+    font-family: 'Celebri Sans';
+}
+
+</style>
 
 <%- include ('../partials/footer') %>
