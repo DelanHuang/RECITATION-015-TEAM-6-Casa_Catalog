@@ -110,7 +110,8 @@ app.post('/register', async (req, res) => {
   } catch (error) {
     // Render the register page with an error message if the insert fails
     res.locals.message = "Registration Failed. Please enter a unique username.";
-    res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
+    console.log(res.locals.message);
+    res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.', cookie: req.session.userid });
   }
 });
 
@@ -185,7 +186,8 @@ app.post('/login', async (req, res) => {
   } catch (error) {
     // Send an appropriate error message to the user and render the login page
     res.locals.message = "Incorrect username or password.";
-    res.status(401).render('pages/login', { error: error.message, message: "Incorrect username or password" });
+    console.log(res.locals.message);
+    res.status(401).render('pages/login', { error: error.message, message: "Incorrect username or password", cookie: req.session.userid });
   }
 });
 
@@ -323,7 +325,7 @@ app.get ("/logout", (req, res) => {
   req.session.userid = undefined;
   req.session.save();
   
-  res.render("pages/login", {cookie: req.session.userid}); // Redirection the user to the login page
+  res.render("pages/login", {cookie: req.session.userid}); // Redirects the user to the login page
 });
 
 //Test route for lab 11
