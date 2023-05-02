@@ -59,6 +59,9 @@ const user = {
   password: undefined,
 };
 
+// Allow the use of static files, such as images. 
+// An image path will be defined as img/<FILENAME>
+app.use(express.static('resources'));
 
 
 //API Integration
@@ -195,7 +198,7 @@ app.get("/discover", (req, res) => {
     res.redirect("/login");
     return;
   }
-  else{res.locals.message = "Welcome to the Discover Page " + req.session.user.username + "!"};
+  else{res.locals.message = "Welcome to the Discover Page!"};
     const username = req.session.user.username;
     const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
     axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
