@@ -56,7 +56,7 @@
         background-color: #555;
       }
       .buy-btn {
-        background-color: #4CAF50;
+        background-color: #00bac7;
         color: white;
         padding: 10px 15px;
         border: none;
@@ -69,7 +69,7 @@
         cursor: pointer;
       }
       .buy-btn:hover {
-        background-color: #3e8e41;
+        background-color: #00bac7;
       }
       input {
         border-color: #dee2e6
@@ -77,12 +77,14 @@
     </style>
     </head>
     <body>
-
+<main>
+  <br>
     <div class="container" style="padding: 50px; background-color: seashell; width: 80%">
 
         <div class="row">
+        
             <div class="col-xl-8 col-xxl-9">
-
+              <div class = "container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:30px">
                 <div class="card border-0 card-h-100">
                     <div class="card-header border-0 card-header-space-between">
                         
@@ -132,7 +134,7 @@
                                   <td>
                                     <form id="deleteForm" method="POST" action="/watchlist/delete">
                                       <input type="hidden" name="itemId" value="<%= item.id %>">
-                                      <button type="submit"  class="btn btn-secondary btn-sm">Remove</button>
+                                      <button type="submit"  class="btn btn-secondary">Remove</button>
                                     </form>
                                     <a href="<%= item.itemurl %>" class="buy-btn">Buy</a>
                                   </td>
@@ -144,10 +146,11 @@
                     </div> 
                 </div>
             </div>
-
+            </div>
+         
             <div class="col-xl-4 col-xxl-3">
                 
-                
+              <div class = "container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:20px">
                 <div class="card border-0 card-h-100">
                     <div class="card-header border-0 card-header-space-between">
                         
@@ -167,14 +170,15 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div> 
 
     </div>
            
 
 
- 
-  <!-- </body> -->
+ </main>
+  </body>
 
 
 <%- include ('../partials/footer') %>

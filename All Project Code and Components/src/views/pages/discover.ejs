@@ -2,7 +2,7 @@
 <%- include ('../partials/navbar') %>
 <%- include ('../partials/message') %>
 <main>
-  <br>
+ 
   <form id="search-form" action="/discover" method="GET">
     <input type="text" id="search-input" name="q" placeholder="Search for items">
     <button type="submit" style="background-color: 
@@ -12,13 +12,13 @@
   </form>
   <div class="container" style="padding: 50px; background-color: seashell; width: 80%">
     <div class="row">
-      <div class="col-12 col-xl-4">
+      <div class="col-12 col-xl-3">
         <!-- Projects -->
-        <div class = "container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:30px">
+        <div class = "container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:20px">
         <div class="card card-fill" >
           <div class="card-header" >
             <!-- Title -->
-            <h4 class="card-header-title" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:gray">
+            <h4 class="card-header-title">
               Current Item
             </h4>
           </div>
@@ -30,8 +30,29 @@
                   <div class="col ms-n2">
                     <!-- Title -->
                     <h4 class="mb-1">
-                      <div class="text-gray-500 flex-grow-1 me-4">Product Name</div>
-                      <div class="fw-bolder text-gray-700 text-xxl-end"><%= searchTerm %></div>
+                      
+                      <!-- <div class="text-gray-500 flex-grow-1 me-4">Product Name</div>
+                      <span class="text-gray-400 fw-semibold fs-6 d-block text-start ps-0">Direct link clicks</span>
+                      <div class="fw-bolder text-gray-700 text-xxl-end"><%= searchTerm %></div> -->
+                      <div class="d-flex flex-stack mb-8">                 
+                        <!--begin::Section-->                                  
+                        <div class="d-flex align-items-center me-6">
+                  
+                            <!--begin::Section-->                                  
+                            <div class="flex-grow-1">
+                                <div class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Product Name</a>
+    
+                            </div>     
+                            </div>              
+                            <!--end::Section-->
+                            <div class = "m-0">
+                            <span class="text-gray-400 fw-semibold d-block fs-6"><%= searchTerm %></span>
+                            </div>
+                        </div>                   
+                        <!--end::Section-->
+    
+                       
+                    </div>
                     </h4>
                   </div>
                 </div> 
@@ -41,8 +62,27 @@
                   <div class="col ms-n2">
                     <!-- Title -->
                     <h4 class="mb-1">
-                      <div class="text-gray-500 flex-grow-1 me-4">Current User</div>
-                      <div class="fw-bolder text-gray-700 text-xxl-end"><%= username %></div>
+                      <!-- <div class="text-gray-500 flex-grow-1 me-4">Current User</div>
+                      <div class="fw-bolder text-gray-700 text-xxl-end"><%= username %></div> -->
+                      <div class="d-flex flex-stack mb-8">                 
+                        <!--begin::Section-->                                  
+                        <div class="d-flex align-items-center me-6">
+                  
+                            <!--begin::Section-->                                  
+                            <div class="flex-grow-1">
+                                <div class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Current User</a>
+    
+                            </div>     
+                            </div>              
+                            <!--end::Section-->
+                            <div class = "m-0">
+                            <span class="text-gray-400 fw-semibold d-block fs-6"><%= username %></span>
+                            </div>
+                        </div>                   
+                        <!--end::Section-->
+    
+                       
+                    </div>
                     </h4>                
                   </div>        
                 </div> <!-- / .row -->
@@ -52,7 +92,7 @@
         </div> <!-- / .card -->
       </div>
 </div>
-      <div class="col-12 col-xl-8">   
+      <div class="col-12 col-xl-9">   
         <div class = "container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:30px">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
@@ -78,7 +118,7 @@
                 <input type="hidden" name="itemUrl" value="<%= item.url %>">
                 </div>
                 <button type="submit" class="btn btn-secondary">Add to Watchlist</button>
-                
+               
               </form>
             </div>
           </div>
@@ -129,10 +169,10 @@
 }
 /* Hover effect for cards */
 /* Style the card titles */
-.card-title {
+.card-header-title {
   font-size: 20px;
   font-weight: bold;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  font-family:'Calibri'
 }
 /* Style the card text */
 .card-text {
