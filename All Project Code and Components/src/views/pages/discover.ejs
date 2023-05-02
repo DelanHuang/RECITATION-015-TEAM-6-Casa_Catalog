@@ -87,39 +87,43 @@
               
               <div class="col-md-4">  <%# Grid cell the card is stored in %>
                 
-                <div class="card mb-4 box-shadow"> <%# Individual Results Card %>
-                  <img class="card-img-top" src="<%= item.image %>" alt="Thumbnail not found on Ebay" style="max-width: 100%;">
+                <div class="card mb-4 box-shadow" style="height: 450px;"> <%# Individual Results Card %>
+                  <img class="card-img-top" src="<%= item.image %>" alt="Thumbnail not found on Ebay" style="max-width: 100%; height: 30%">
                   
-                  <div class="card-body">
+                  <div class="card-body" style="height:70%;">
                     
-                    <div class="card-header">
+                    <div class="card-header" style="height: 55%; text-align: center; align-items: center; display: flex; flex-grow: 1; justify-content: center; overflow-y: auto; word-break: break-word;"> <%# This div stores the product "name", which is up to 80 characters %>
                       <%= item.name %>
                     </div>
                       
-                    <div class="d-flex fw-semibold align-items-center">
-                      <!--begin::Label-->
-                      <div class="text-gray-500 flex-grow-1 me-4">
-                        Price
+                    <div> <%# This div stores pricing and the buttons to go to ebay or add to watchlist %>
+
+                      <div class="d-flex fw-semibold align-items-center" style="margin-top: 0.1rem; margin-bottom: 0.1rem; margin-right: 0rem;">
+                        <!--begin::Label-->
+                        <div class="text-gray-500 flex-grow-1 me-4">
+                          Price
+                        </div>
+                        <!--end::Label-->
+                        <div class="fw-bolder text-gray-700 text-xxl-end">
+                          $<%= item.price %>
+                        </div>
                       </div>
-                      <!--end::Label-->
-                      <div class="fw-bolder text-gray-700 text-xxl-end">
-                        $<%= item.price %>
-                      </div>
-                    </div>
-                    
-                    <a href="<%= item.url %>" class="btn btn-primary" target="_blank">Buy Now</a>
-                    
-                    <form action="/watchlist" method="POST">
-                      <input type="hidden" name="productId" value="<%= item.id %>">
-                      <input type="hidden" name="itemImage" value="<%= item.image %>">
-                      <input type="hidden" name="itemName" value="<%= item.name %>">
-                      <input type="hidden" name="itemPrice" value="<%= item.price %>">
-                      <div class = "mb-3">
-                        <input type="hidden" name="itemUrl" value="<%= item.url %>">
-                      </div>
-                      <button type="submit" class="btn btn-secondary">Add to Watchlist</button> 
-                    </form>
+
+                      <a href="<%= item.url %>" class="btn btn-primary" target="_blank">Buy Now</a>
+
+                      <form action="/watchlist" method="POST">
+                        <input type="hidden" name="productId" value="<%= item.id %>">
+                        <input type="hidden" name="itemImage" value="<%= item.image %>">
+                        <input type="hidden" name="itemName" value="<%= item.name %>">
+                        <input type="hidden" name="itemPrice" value="<%= item.price %>">
+                        <div class = "mb-3">
+                          <input type="hidden" name="itemUrl" value="<%= item.url %>">
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Add to Watchlist</button> 
+                      </form>
                   
+                    </div>
+
                   </div>
 
                 </div>  <%# / Individual Results Card %>

@@ -59,9 +59,6 @@ const user = {
   password: undefined,
 };
 
-// Allow the use of static files, such as images. 
-// An image path will be defined as img/<FILENAME>
-app.use(express.static('resources'));
 
 
 //API Integration
