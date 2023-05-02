@@ -196,7 +196,7 @@ app.get("/discover", (req, res) => {
     res.redirect("/login");
     return;
   }
-  else{res.locals.message = "Welcome to the Discover Page!"};
+  else {
     const username = req.session.user.username;
     const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
     axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
@@ -210,12 +210,25 @@ app.get("/discover", (req, res) => {
           const url = product.viewItemURL[0];
           return { name, image, id, price, url };
         });
+        // Check if the 'discovered' property is set in the session object
+        const discovered = req.session.discovered;
+        if (!discovered) {
+          // Set the 'discovered' property in the session object
+          req.session.discovered = true;
+          res.locals.message = "Welcome to the Discover Page!";
+        } else {
+          res.locals.message = null;
+        }
         res.render("pages/discover", { items, searchTerm, username, cookie: req.session.userid });
       })
       .catch(error => {
         res.send(error);
       });
+  }
 });
+
+
+
 
 app.get('/watchlist', async (req, res) => {
   const userid = req.session.userid;
