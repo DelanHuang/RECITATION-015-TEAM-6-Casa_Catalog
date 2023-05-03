@@ -59,9 +59,6 @@ const user = {
   password: undefined,
 };
 
-// Allow the use of static files, such as images. 
-// An image path will be defined as img/<FILENAME>
-app.use(express.static('resources'));
 
 
 //API Integration
@@ -110,7 +107,8 @@ app.post('/register', async (req, res) => {
   } catch (error) {
     // Render the register page with an error message if the insert fails
     res.locals.message = "Registration Failed. Please enter a unique username.";
-    res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.' });
+    console.log(res.locals.message);
+    res.status(400).render('pages/register', { error: 'An error occurred while registering. Please try again.', cookie: req.session.userid });
   }
 });
 
@@ -185,7 +183,8 @@ app.post('/login', async (req, res) => {
   } catch (error) {
     // Send an appropriate error message to the user and render the login page
     res.locals.message = "Incorrect username or password.";
-    res.status(401).render('pages/login', { error: error.message, message: "Incorrect username or password" });
+    console.log(res.locals.message);
+    res.status(401).render('pages/login', { error: error.message, message: "Incorrect username or password", cookie: req.session.userid });
   }
 });
 
@@ -198,7 +197,7 @@ app.get("/discover", (req, res) => {
   }
   else {
     const username = req.session.user.username;
-    const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
+    const searchTerm = req.query.q || "Nike Mid Blazers"; // default search term is "Baseball Cards"
     axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
       .then(results => {
         const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
@@ -336,7 +335,7 @@ app.get ("/logout", (req, res) => {
   req.session.userid = undefined;
   req.session.save();
   
-  res.render("pages/login", {cookie: req.session.userid}); // Redirection the user to the login page
+  res.render("pages/login", {cookie: req.session.userid}); // Redirects the user to the login page
 });
 
 //Test route for lab 11

@@ -13,7 +13,7 @@
 
     <div class="row" style="width: 90%; margin-left: auto; margin-right: auto;">
         
-        <div class="col-sm" id="fair_price_body" style="padding-top: 12px; padding-bottom: 12px; background-color: #FFF5EE;">
+        <div class="col-sm" id="fair_price_body" style="padding-top : 30px; padding-bottom: 30px; background-color: #FFF5EE;">
             
             <div class="card card-fill text-center">
             
@@ -34,10 +34,12 @@
                             <tr style="background-color: white;">
                                 <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="width: 100px; height: 100px;"></td>
                                 <td><%= item.itemname %></td>
-                                <td>$<%= item.itemprice %></td>
-                                <td>$<%= item.watchprice %></td>
+       
+                                <td><span class="badge badge-soft-danger me-2"> $<%= item.itemprice %></span></td>
+              
+                                <td><span class="badge badge-soft-success me-2"> $<%= item.watchprice %></span></td>
                                 <td>
-                                    <a href="<%= item.itemurl %>" class="btn btn-primary btn-md" target="_blank">Buy</a>
+                                    <a href="<%= item.itemurl %>" class="btn btn-primary btn-md" target="_blank" style="background-color: #93c47d; border-color: #93c47d;" >Buy</a>
                                 </td>
                             </tr>
                         
@@ -50,7 +52,7 @@
         
         </div>
         
-        <div class="col-sm" id="lowest_price_body" style="padding-top: 12px; padding-bottom: 12px; background-color: #FFF5EE;">
+        <div class="col-sm" id="lowest_price_body" style="padding-top : 30px; padding-bottom: 30px;background-color: #FFF5EE;">
             
             <div class="card card-fill text-center">
             
@@ -71,10 +73,10 @@
                             <tr style="background-color: white;">
                                 <td><img src="<%= item.itemimage %>" alt="<%= item.itemname %>" style="width: 100px; height: 100px;"></td>
                                 <td><%= item.itemname %></td>
-                                <td>$<%= item.itemprice %></td>
-                                <td>$<%= item.initialprice %></td>
+                                <td><span class="badge badge-soft-danger me-2"> $<%= item.itemprice %></span></td>
+                                <td><span class="badge badge-soft-success me-2"> $<%= item.initialprice %></span></td>
                                 <td>
-                                    <a href="<%= item.itemurl %>" class="btn btn-primary btn-md" target="_blank">Buy</a>
+                                    <a href="<%= item.itemurl %>" class="btn btn-primary btn-md" target="_blank" style="background-color: #93c47d; border-color: #93c47d;  ">Buy</a>
                                 </td>
                             </tr>
                         <% }); %>
@@ -94,7 +96,7 @@
 
 th 
 {
-    font-family: 'Celebri Sans';
+    font-family: 'Calibri';
 }
 
 tr 
@@ -109,19 +111,31 @@ td
 
 h1 
 {
-    font-family: 'Celebri Sans';
+    font-family: 'Calibri';
 }
 
 h5 
 {
-    font-family: 'Celebri Sans';
+    font-family: 'Calibri';
     font-weight: 600;
 }
 
 p 
 {
-    font-family: 'Celebri Sans';
+    font-family: 'Calibri';
 }
+
+.badge-soft-success {
+    background-color: rgba(75,191,115,.175);
+    color: color-yiq(rgba(75,191,115,.175));
+    color: #4bbf73;
+}
+.badge-soft-danger {
+    background-color: rgba(217,83,79,.175);
+    color: color-yiq(rgba(217,83,79,.175));
+    color: #d9534f;
+}
+
 
 </style>
 

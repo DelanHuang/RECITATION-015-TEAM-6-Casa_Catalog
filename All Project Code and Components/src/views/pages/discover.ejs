@@ -1,198 +1,228 @@
-<%- include ('../partials/header') %> 
+<%- include ('../partials/header') %>
 <%- include ('../partials/navbar') %>
 <%- include ('../partials/message') %>
 <main>
- 
+
+  <br>
+
   <form id="search-form" action="/discover" method="GET">
     <input type="text" id="search-input" name="q" placeholder="Search for items">
-    <button type="submit" style="background-color: 
-    #e6a055;">
+    <button type="submit" style="background-color:#e6a055;">
       Search
     </button>
   </form>
+
   <div class="container" style="padding: 50px; background-color: seashell; width: 80%">
     <div class="row">
       <div class="col-12 col-xl-3">
         <!-- Projects -->
-        <div class = "container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:20px">
-        <div class="card card-fill" >
-          <div class="card-header" >
-            <!-- Title -->
-            <h4 class="card-header-title">
-              Current Item
-            </h4>
-          </div>
-          <div class="card-body">
-            <!-- List group -->
-            <div class="list-group list-group-flush my-n3">
-              <div class="list-group-item">
-                <div class="row align-items-center">
-                  <div class="col ms-n2">
-                    <!-- Title -->
-                    <h4 class="mb-1">
-                      
-                      <!-- <div class="text-gray-500 flex-grow-1 me-4">Product Name</div>
-                      <span class="text-gray-400 fw-semibold fs-6 d-block text-start ps-0">Direct link clicks</span>
-                      <div class="fw-bolder text-gray-700 text-xxl-end"><%= searchTerm %></div> -->
-                      <div class="d-flex flex-stack mb-8">                 
-                        <!--begin::Section-->                                  
-                        <div class="d-flex align-items-center me-6">
-                  
-                            <!--begin::Section-->                                  
-                            <div class="flex-grow-1">
-                                <div class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Product Name</a>
-    
-                            </div>     
-                            </div>              
-                            <!--end::Section-->
-                            <div class = "m-0">
-                            <span class="text-gray-400 fw-semibold d-block fs-6"><%= searchTerm %></span>
-                            </div>
-                        </div>                   
-                        <!--end::Section-->
-    
-                       
-                    </div>
-                    </h4>
-                  </div>
-                </div> 
-              </div>
-              <div class="list-group-item">
-                <div class="row align-items-center">
-                  <div class="col ms-n2">
-                    <!-- Title -->
-                    <h4 class="mb-1">
-                      <!-- <div class="text-gray-500 flex-grow-1 me-4">Current User</div>
-                      <div class="fw-bolder text-gray-700 text-xxl-end"><%= username %></div> -->
-                      <div class="d-flex flex-stack mb-8">                 
-                        <!--begin::Section-->                                  
-                        <div class="d-flex align-items-center me-6">
-                  
-                            <!--begin::Section-->                                  
-                            <div class="flex-grow-1">
-                                <div class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">Current User</a>
-    
-                            </div>     
-                            </div>              
-                            <!--end::Section-->
-                            <div class = "m-0">
-                            <span class="text-gray-400 fw-semibold d-block fs-6"><%= username %></span>
-                            </div>
-                        </div>                   
-                        <!--end::Section-->
-    
-                       
-                    </div>
-                    </h4>                
-                  </div>        
-                </div> <!-- / .row -->
-              </div>
+        <div class="container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:20px">
+          <div class="card card-fill">
+            <div class="card-header">
+              <!-- Title -->
+              <h4 class="card-header-title">
+                Current Item
+              </h4>
             </div>
-          </div> <!-- / .card-body -->
-        </div> <!-- / .card -->
-      </div>
-</div>
-      <div class="col-12 col-xl-9">   
-        <div class = "container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:30px">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
-       <% items.forEach(item => { %>
-        <div class="col-md-4">
-          <div class="card mb-4 box-shadow">
-            <img class="card-img-top" src="<%= item.image %>" alt="Thumbnail not found on Ebay" style="max-width: 100%;">
             <div class="card-body">
-              <div class="card-header"><%= item.name %></div>
-              <div class="d-flex fw-semibold align-items-center">
-                <!--begin::Label-->
-                <div class="text-gray-500 flex-grow-1 me-4">Price</div>
-                <!--end::Label-->
-                <div class="fw-bolder text-gray-700 text-xxl-end">$<%= item.price %></div>
-            </div>
-              <a href="<%= item.url %>" class="btn btn-primary" target="_blank">Buy Now</a>
-              <form action="/watchlist" method="POST">
-                <input type="hidden" name="productId" value="<%= item.id %>">
-                <input type="hidden" name="itemImage" value="<%= item.image %>">
-                <input type="hidden" name="itemName" value="<%= item.name %>">
-                <input type="hidden" name="itemPrice" value="<%= item.price %>">
-                <div class = "mb-3">
-                <input type="hidden" name="itemUrl" value="<%= item.url %>">
+              <!-- List group -->
+              <div class="list-group list-group-flush my-n3">
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col ms-n2">
+                      <!-- Title -->
+                      <h4 class="mb-1">
+                        <div class="d-flex flex-stack mb-8">
+                          <!--begin::Section-->
+                          <div class="d-flex align-items-center me-6">
+
+                            <!--begin::Section-->
+                            <div class="flex-grow-1">
+                              <div class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">
+                                Product Name
+                              </div>
+                            </div>
+                            <!--end::Section-->
+                            <div class="m-0">
+                              <span class="text-gray-400 fw-semibold d-block fs-6">
+                                <%= searchTerm %>
+                              </span>
+                            </div>
+                          </div>
+                          <!--end::Section-->
+                        </div>
+                      </h4>
+                    </div>
+                  </div>
                 </div>
-                <button type="submit" class="btn btn-secondary">Add to Watchlist</button>
-               
-              </form>
-            </div>
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col ms-n2">
+                      <!-- Title -->
+                      <h4 class="mb-1">
+                        <div class="d-flex flex-stack mb-8">
+                          <!--begin::Section-->
+                          <div class="d-flex align-items-center me-6">
+
+                            <!--begin::Section-->
+                            <div class="flex-grow-1">
+                              <div class="text-gray-800 text-hover-primary fs-5 fw-bold lh-0">
+                                Current User
+                              </div>
+                            </div>
+                            <!--end::Section-->
+                            <div class="m-0">
+                              <span class="text-gray-400 fw-semibold d-block fs-6">
+                                <%= username %>
+                              </span>
+                            </div>
+
+                          </div>
+                          <!--end::Section-->
+
+
+                        </div>
+                      </h4>
+                    </div>
+                  </div> <!-- / .row -->
+                </div>
+              </div>
+            </div> <!-- / .card-body -->
+          </div> <!-- / .card -->
+        </div>
+      </div>
+      
+      <div class="col-12 col-xl-9">
+        <div class="container rounded" style="border:2px solid #ccc4b3; border-radius: 30px; padding:30px">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            <% items.forEach(item=> { %>
+              <div class="col-md-4">
+
+                <div class="card mb-4 box-shadow" style="height: 450px;">
+                  <img class="card-img-top" src="<%= item.image %>" alt="Thumbnail not found on Ebay"
+                    style="max-width: 100%; height: 30%;">
+
+                  <div class="card-body" style="height: 70%">
+
+                    <div class="card-header" 
+                    style="height: 55%; text-align: center; align-items: center; 
+                    display: flex; flex-grow: 1; justify-content: center; overflow-y: auto; 
+                    word-break: break-word;">
+                      <%= item.name %>
+                    </div>
+
+                    <div class="d-flex fw-semibold align-items-center"
+                      style="margin-top: 0.1rem; margin-bottom: 0.1rem; margin-right: 0rem;">
+                      <!--begin::Label-->
+                      <div class="text-gray-500 flex-grow-1 me-4">
+                        Price
+                      </div>
+                      <!--end::Label-->
+                      <div class="fw-bolder text-gray-700 text-xxl-end">
+                        $<%= item.price %>
+                      </div>
+                    </div>
+
+                    <a href="<%= item.url %>" class="btn btn-primary" target="_blank">Buy Now</a>
+                    <form action="/watchlist" method="POST">
+                      <input type="hidden" name="productId" value="<%= item.id %>">
+                      <input type="hidden" name="itemImage" value="<%= item.image %>">
+                      <input type="hidden" name="itemName" value="<%= item.name %>">
+                      <input type="hidden" name="itemPrice" value="<%= item.price %>">
+                      <div class="mb-3">
+                        <input type="hidden" name="itemUrl" value="<%= item.url %>">
+                      </div>
+                      <button type="submit" class="btn btn-secondary">Add to Watchlist</button>
+
+                    </form>
+                  
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          
           </div>
         </div>
-      <% }); %>
       </div>
-      </div>
-  </div>
-</div>
-  </main>
-<style>
-/* Center the search form */
-#search-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 50px;
-}
-/* Style the search input */
-#search-input {
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  margin-right: 10px;
-  font-size: 16px;
-  background-color: #f4f4f4;
-}
-/* Style the search button */
-#search-form button {
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  font-size: 16px;
-  background-color: #e6a055;
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-/* Hover effect for search button */
-#search-form button:hover {
-  background-color:#e6a055;
-}
-/* Style the cards */
-.card {
-  border: none;
-  border-radius: 10px;
-  transition: all 0.2s ease-in-out;
+    </div>
 
-}
-/* Hover effect for cards */
-/* Style the card titles */
-.card-header-title {
-  font-size: 20px;
-  font-weight: bold;
-  font-family:'Calibri'
-}
-/* Style the card text */
-.card-text {
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-/* Style the Buy Now button */
-.btn-primary {
-  background-color:#e6a055;
-  border-color: #e6a055;
-}
-/* Hover effect for Buy Now button */
-.btn-primary:hover {
-  background-color: #e6a055;
-  border-color: #e6a055;
-}
+  </div>
+
+</main>
+
+<style>
+  /* Center the search form */
+  #search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+  }
+
+  /* Style the search input */
+  #search-input {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-right: 10px;
+    font-size: 16px;
+    background-color: #f4f4f4;
+  }
+
+  /* Style the search button */
+  #search-form button {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #e6a055;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* Hover effect for search button */
+  #search-form button:hover {
+    background-color: #e6a055;
+  }
+
+  /* Style the cards */
+  .card {
+    border: none;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+
+  }
+
+  /* Hover effect for cards */
+  /* Style the card titles */
+  .card-header-title {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Calibri'
+  }
+
+  /* Style the card text */
+  .card-text {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  /* Style the Buy Now button */
+  .btn-primary {
+    background-color: #e6a055;
+    border-color: #e6a055;
+  }
+
+  /* Hover effect for Buy Now button */
+  .btn-primary:hover {
+    background-color: #e6a055;
+    border-color: #e6a055;
+  }
 </style>
-  
-  
+
+
 
 
 <%- include ('../partials/footer') %>
