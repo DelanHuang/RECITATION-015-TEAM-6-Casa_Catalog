@@ -197,7 +197,7 @@ app.get("/discover", (req, res) => {
   }
   else {
     const username = req.session.user.username;
-    const searchTerm = req.query.q || "Baseball Cards"; // default search term is "Baseball Cards"
+    const searchTerm = req.query.q || "Nike Mid Blazers"; // default search term is "Baseball Cards"
     axios.get(`https://svcs.ebay.com/services/search/FindingService/v1?Operation-Name=findItemsByKeywords&Service-Version=1.0.0&Security-AppName=AndrewZi-CasaCata-PRD-53ab496b1-879c446f&Response-Data-Format=JSON&REST-Payload&keywords=${encodeURIComponent(searchTerm)}`)
       .then(results => {
         const products = results.data.findItemsByKeywordsResponse[0].searchResult[0].item;
