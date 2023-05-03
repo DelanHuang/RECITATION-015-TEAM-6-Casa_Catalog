@@ -2,42 +2,71 @@
 <%- include ('../partials/navbar') %>
 
 <br>
+<div class="container" style="padding: 50px; background-color: seashell;">
+  <div class="row">
+    <div class="col-12 col-xl-6" id="carousel-box">
 
-<div class="container" style="padding: 50px; background-color: seashell;" >
+      <div id="AutoCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 419px;">
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="3000">
+            <img src="./img/house (2).jpg" class="d-block w-100" alt="Woman online shopping with products" height="419px" width="300px">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="./img/house_2.jpg" class="d-block w-100" alt="Online shopping" height="419px" width="500px">
+          </div>
+          <div class="carousel-item" data-bs-interval="3000">
+            <img src="./img/couch.jpeg" class="d-block w-100" alt="Couch" height="419px" width="500px">
+          </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#AutoCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#AutoCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+
+ 
+
+
+<!-- <div class="container" style="padding: 50px; background-color: seashell;" >
   <div class = "row">
     <div class="col-12 col-xl-6" id="carousel-box">
-      
+   
         <div id="AutoCarousel" class="carousel slide" data-bs-ride="carousel" style="max-height: 419px;">
           <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="5000">
-              <img src="./img/shopping-2.jpg" 
+            <div class="carousel-item active" data-bs-interval="3000">
+              <img src="./img/house (2).jpg" 
               class="d-block w-100" 
               alt="Woman online shopping with products" 
               height="419px" 
               width="300px">
             </div>
-            <div class="carousel-item" data-bs-interval="5000">
-              <img src="./img/shopping-1.jpg" 
+            <div class="carousel-item" data-bs-interval="3000">
+              <img src="./img/house_2.jpg" 
               class="d-block w-100" 
               alt="Online shopping" 
               height="419px" 
               width="500px">
             </div>
-            <div class="carousel-item" data-bs-interval="5000">
-              <img src="./img/online-sales.jpg" 
+            <div class="carousel-item" data-bs-interval="3000">
+              <img src="./img/couch.jpeg" 
               class="d-block w-100" 
-              alt="Miniature shopping cart in front of laptop" 
+              alt="Couch" 
               height="419px" 
-              width="639px">
+              width="500px">
             </div>
-          </div>
+          </div> -->
       
         </div>
     </div>
 
     <div class="col-12 col-xl-6" id="description-box">
-      <h2>Our Service</h2>
-      <p>
+      <div class = "container rounded" style="border: transparent; border-radius: 30px; padding:20px">
+      <h2 style="color: #666666">Our Service</h2>
+      <p style ="font-size: 20px; font-family: 'Celebri'; color: gray">
         Are you sick and tired of missing out on your favorite items and collectibles because
          you missed that amazing sale? Worry no more! You may keep tabs on the cost of things 
          you're interested in purchasing with the aid of Casa Catalog to make sure you know 
@@ -47,7 +76,7 @@
          our website has helped users save time and money. 
       </p>
     </div>
-
+</div>
   </div>
 
 </div>
