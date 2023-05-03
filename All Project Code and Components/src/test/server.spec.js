@@ -76,12 +76,12 @@ describe('Server!', () => {
       });
   });
 
-  //We are checking POST /register API by passing an already existing username and password.
+  //We are checking POST /register API by passing the username that is garunteed to exist as we just created it.
   it('Negative : /register. Checking username already in use.', done => {
     chai
       .request(server)
       .post('/register')
-      .send({input_username: 'newtestuser1', input_password: 'newtestpassword1'})
+      .send({input_username: newusername, input_password: newpassword})
       .end((err, res) => {
         expect(res).to.have.status(400); //A request with a username that already exists in the database should fail with code 400 (bad request).
         expect('Location', '/register'); //As the registration was unsuccessful, the user should remain on the register page.
