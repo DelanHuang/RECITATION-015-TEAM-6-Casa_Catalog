@@ -71,4 +71,4 @@ After you have finished running the tests, you must undo these changes if you wi
 
 ## **Link to Deployed Application**
 
-The link to the deployed application is http://recitation-015-team-6.eastus.cloudapp.azure.com:3000/home.
+The link to the deployed application is http://recitation-015-team-06.eastus.cloudapp.azure.com:3000/home.
